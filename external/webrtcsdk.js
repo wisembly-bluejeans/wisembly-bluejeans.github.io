@@ -34973,10 +34973,10 @@ define('WebRTC_SDK/RTCController',['require','q','my.Class','underscore','backbo
             var localVideoToggled = _.isBoolean(params.localVideo) && (params.localVideo !== this.model.get('localVideoMuted'));
 
             this.localMediaManager.muteStreams(params).then(function() {
-                if(!params.localMuteOnly && connectMsgAckd) {
-                    if(localVideoToggled && (params.localVideo === false)) {
+//                if(!params.localMuteOnly && connectMsgAckd) {
+//                    if(localVideoToggled && (params.localVideo === false)) {
                         self.onLocalStreamsChanged();
-                    }
+//                    }
 
                     var localAudioMuted = self.localMediaManager.model.get('localAudioMuted');
                     var localVideoMuted = self.localMediaManager.model.get('localVideoMuted');
@@ -35000,7 +35000,7 @@ define('WebRTC_SDK/RTCController',['require','q','my.Class','underscore','backbo
                         'localAudioMuted': localAudioMuted,
                         'localVideoMuted': localVideoMuted
                     });
-                }
+//                }
             }, function() {
                 Logger.error("RTCController: Failed to Mute streams");
             });
@@ -35206,7 +35206,6 @@ define('WebRTC_SDK/RTCController',['require','q','my.Class','underscore','backbo
 
 /**
  * Created by nitesh on 25/07/16.
-  4/6, g1 - change host to production API site
  */
 "use strict"
 
@@ -35214,7 +35213,6 @@ define('config',[],function () {
     return {
         environment: {
             hostname: "https://bluejeans.com",
-			// api : "https://api.bluejeans.com",
             cert: {
                 key: "", 
                 certificate: ""
