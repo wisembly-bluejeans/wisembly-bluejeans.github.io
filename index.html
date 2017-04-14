@@ -94,11 +94,31 @@
     box-shadow:0px 0px 7px #000000;
 	}
 	
+	.localvid {
+	width : 20%;
+	}
+	
 	.remvidtitle {
 	   text-align: center;
 	   font-size: 2em;
 	   background-color: #1478c7;
 	   color: #dde4ee;
+	}
+	
+	.locvidtitle {
+	   text-align: center;
+	   align-items: center;
+	   font-size: 1em;
+	   vertical-align: middle;
+	   background-color: #1478c7;
+	   color: #dde4ee;
+	   padding-top: 8px;
+	   padding-bottom: 8px;
+	}
+	
+	#localVideo {
+	width: 80%;
+	margin-left:10%;
 	}
 	
 	.mtginputs {
@@ -126,8 +146,8 @@ function clicked() {
 			<p class="remvidtitle">Remote Video</p>
 			<video id="remoteVideo"></video>
 		</div>
-		<div class="videodiv">
-			<p class="remvidtitle">Local Video</p>
+		<div class="videodiv localvid">
+			<div><p class="locvidtitle">Local Video</p></div>
 			<video id="localVideo"></video>
 		</div>
     </div>
