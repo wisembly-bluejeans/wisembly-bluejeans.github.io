@@ -35,6 +35,7 @@ define(function (require) {
         getAvailableDevices();
         startLocalStream();
         RTCManager.localVideoStreamChange = updateSelfView;
+		RTCManager.localAudioStreamChange = updateAudioPath;
         //timer = setInterval(setVolume,1000);
      };
 
@@ -56,12 +57,20 @@ define(function (require) {
         //Callback for local video stream change, it can be used to render self view when the stream is available
     var updateSelfView = function (localStream) {
         if(localStream) {
-             RTCManager.renderSelfView({
+			updateVideoMuteButton(false);
+			RTCManager.renderSelfView({
                  stream: localStream,
                  el: localVideoEl
              });
          }
     };
+	
+	// Callback when audio stream changes.  update GUI if stream is defined	
+	var updateAudioPath = function (localStream) {
+		if(localStream) {
+			updateAudioMuteButton(false);
+		}
+	};
 
         //Get the list of all available devices. it returns a list of devices. Use the list for device selection
     var getAvailableDevices = function() {
@@ -129,12 +138,12 @@ define(function (require) {
 
 	var muteAudio = function() {
 		RTCManager.muteStreams(config.muteParams);
-		updateAudioMuteButton();
+		updateAudioMuteButton(true);
 	};
 
 	var unmuteAudio = function() {
 		RTCManager.muteStreams(config.muteParams);
-		updateAudioMuteButton();
+		updateAudioMuteButton(false);
 	};
 
 	var toggleVideoMute = function(event) {
@@ -145,17 +154,21 @@ define(function (require) {
 
 	var muteVideo = function() {
 		RTCManager.muteStreams(config.muteParams);
-		updateVideoMuteButton();
+		updateVideoMuteButton(true);
 	};
 
 	var unmuteVideo = function() {
 		RTCManager.muteStreams(config.muteParams);
-		updateVideoMuteButton();
+		// let video stream event set button state
 	};
 
 	var updateButtonStates = function() {
-		updateAudioMuteButton();
-		updateVideoMuteButton();
+		var locals = RTCManager.getCurrentMuteStates('local');
+		var muted = locals.audio ? true : false;
+		updateAudioMuteButton(muted);
+
+		muted = locals.video ? true : false;
+		updateVideoMuteButton(muted);
 	};
 
 	var setVolume = function(){
@@ -165,18 +178,16 @@ define(function (require) {
 			oldVol = vol;
 		}
 	}
-	var updateAudioMuteButton = function() {
-		var audioMuted = RTCManager.getCurrentMuteStates('local').audio ? true : false;
-		var updatedText = audioMuted ? "Unmute Audio" : "Mute Audio";
-		$("#toggleAudioMute").text(updatedText);
-		console.log(audioMuted ? "Audio is Muted now" : "Audio is Unmuted now");
+	var updateAudioMuteButton = function(muted) {
+		var updatedText = muted ? "Unmute Audio" : "Mute Audio";
+		$("#toggleAudioMute").html(updatedText);
+		console.log(muted ? "Audio is Muted now" : "Audio is Unmuted now");
 	};
 
-	var updateVideoMuteButton = function() {
-		var videoMuted = RTCManager.getCurrentMuteStates('local').video ? true : false;
-		var updatedText = videoMuted ? "Unmute Video" : "Mute Video";
-		$("#toggleVideoMute").text(updatedText);
-		console.log(videoMuted ? "Video is Muted now" : "Video is Unmuted now");
+	var updateVideoMuteButton = function(muted) {
+		var updatedText = muted ? "Show Video" : "Mute Video";
+		$("#toggleVideoMute").html(updatedText);
+		console.log(muted ? "Video is Muted now" : "Video is Unmuted now");
 	};
 
 	return {

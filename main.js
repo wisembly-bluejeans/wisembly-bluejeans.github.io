@@ -23,7 +23,7 @@ define([
                 bjnCloudTimeout : 5000,
                 bjnSIPTimeout : 3000,
                 bjnWebRTCReconnectTimeout : 90000});
-
+				
 	
 	LocalMediaTestView.initialize({
 		el: "#localMediaControls",

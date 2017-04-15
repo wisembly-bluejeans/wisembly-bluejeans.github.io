@@ -42164,7 +42164,7 @@ define('WebRTC_SDK/RTCManager',['require','my.Class','underscore','backbone','q'
             this.isVolumeMonitorStarted = false;
             this.config = {
                 environment: {
-                    hostname: "https://bluejeansdev.com"
+                    hostname: "https://bluejeans.com"
                 },
                 meeting : { 
                     meetingNumericId: "",
@@ -42444,8 +42444,8 @@ define('WebRTC_SDK/RTCManager',['require','my.Class','underscore','backbone','q'
             //this information can be retrived from the SEAM apis
             if (endpointType === 'local') {
                 return {
-                    'audio' : this.rtcController.model.get('audioMuted'),
-                    'video' : this.rtcController.model.get('videoMuted')
+                    'audio' : this.rtcController.model.get('localAudioMuted'),
+                    'video' : this.rtcController.model.get('localVideoMuted')
                 }
             }
         },
@@ -42487,7 +42487,7 @@ define('WebRTC_SDK/RTCManager',['require','my.Class','underscore','backbone','q'
 
         onLocalAudioStreamChange: function(model) {
             if(this.localAudioStreamChange)
-                this.localAudioStreamChange(model.get('localVideoStream'));
+                this.localAudioStreamChange(model.get('localAudioStream'));
         },
 
         initWebrtcReconnectTimer: function() {
