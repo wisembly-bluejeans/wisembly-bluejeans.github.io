@@ -42162,9 +42162,10 @@ define('WebRTC_SDK/RTCManager',['require','my.Class','underscore','backbone','q'
             this.bjnSIPTimeout = 3000;
             this.bjnWebRTCReconnectTimeout = 90000;
             this.isVolumeMonitorStarted = false;
+			this.maxBandwidth = 1200;
             this.config = {
                 environment: {
-                    hostname: "https://bluejeans.com"
+                    hostname: "https://bluejeansdev.com"
                 },
                 meeting : { 
                     meetingNumericId: "",
@@ -42210,6 +42211,12 @@ define('WebRTC_SDK/RTCManager',['require','my.Class','underscore','backbone','q'
              this.error                     = null;
              //this.endMeeting                = null;
         },
+		
+		setBandwidth : function(bw){
+			if((bw>320) && (bw<1500)){
+				this.maxBandwidth = bw;
+			}
+		},
 		
 		tokenCookie : "BJNt",
 
@@ -42394,7 +42401,8 @@ define('WebRTC_SDK/RTCManager',['require','my.Class','underscore','backbone','q'
                     displayName: this.meetingInfo.displayName,
                     endpointType: "Browser",
                     browserUserAgent: window.navigator.userAgent
-                }
+                },
+				maxBandwidth : this.maxBandwidth
              };
 
              var peerConfig = this.webrtcParams.peerConfig;
