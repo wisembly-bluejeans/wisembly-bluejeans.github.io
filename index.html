@@ -212,41 +212,44 @@ function clicked() {
 
                     <tr><td>Meeting ID:</td>
                         <td><input type="text" class="mtginputs" id="id" name="Meeting id"></td>
-                    <tr><td>PassCode:</td>
+                    </tr>
+					<tr><td>PassCode:</td>
                         <td><input type="text" class="mtginputs" id="passCode" name="PassCode" ></td>
-                    <tr><td>App Node:</td>
-                        <td><input type="text" class="mtginputs" id="appNode" name="App Node"></td>
-                    <tr><td>Sip Url:</td>
-                        <td><input type="text" class="mtginputs" id="sipUrl" name="Sip Url"></td>
-
-
-                    <tr><td>In Audio devices:</td>
-                    <td><select id=audioIn>
-                      <!--option>inbuilt microphone</option>
-                      <option>headphone</option>
-                      <option>mic</option-->
-                        </select></td>
-
-                    <tr><td>Out Audio devices:</td>
-                    <td><select id=audioOut>
-
-                        </select></td>
-
-                    <tr><td>In video devices:</td>
+                    </tr>
+					<tr><td>Camera:</td>
                     <td><select id=videoIn>
 
                         </select></td>
-					<tr><td>Video Quality:</td>
-					<td><select id=videoBw>
+					</tr>
+					<tr>
+					  <td>Video Quality:</td>
+					  <td><select id=videoBw>
 					    <option value="4096">HD (4096 Kbps)</option>
 					    <option value="2048">Hi (2048 Kbps)</option>
 					    <option value="1500" selected>Good (1500 Kbps)</option>
 					    <option value="1024">Mid (1024 Kbps)</option>
 					    <option value="512">Eco (512 Kbps)</option>
 					    <option value="100">Low (100 Kbps)</option>
+						</select>
+					  </td>
+					</tr>
+					<tr><td>Microphone:</td>
+                    <td><select id=audioIn>
+                      <!--option>inbuilt microphone</option>
+                      <option>headphone</option>
+                      <option>mic</option-->
+                        </select></td>
+					</tr>
+
+                    <tr><td>Speaker:</td>
+                    <td><select id=audioOut>
+
+                        </select></td>
+					</tr>
+
                     <tr><td><button class="controls" id="joinMeeting">Join Meeting</button></td>
                         <td><button class="controls" id="leaveMeeting">End Meeting(WIP)</button></td>
-
+					</tr>
                 </table>
             </div>
 
