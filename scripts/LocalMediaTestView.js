@@ -36,6 +36,8 @@ define(function (require) {
         startLocalStream();
         RTCManager.localVideoStreamChange = updateSelfView;
 		RTCManager.localAudioStreamChange = updateAudioPath;
+		var bw = $("#videoBw").prop('value');
+        BJN.RTCManager.setBandwidth(bw);
         //timer = setInterval(setVolume,1000);
      };
 
@@ -123,7 +125,14 @@ define(function (require) {
             BJN.RTCManager.setSpeaker({ speakerId : BJN.localDevices.audioIn[$("#audioOut").prop('selectedIndex')].id,
                                         mediaElements: remoteVideoEl});
         });
-    };
+
+        $("#videoBw").change( function() {
+			var bw = $("#videoBw").prop('value');
+            console.log("Video BW is changed " + bw);
+            BJN.RTCManager.setBandwidth(bw);
+        });
+
+	};
 
         /* ============================= */
         /*      Test Mute Controls   	 */
