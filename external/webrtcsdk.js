@@ -42213,7 +42213,7 @@ define('WebRTC_SDK/RTCManager',['require','my.Class','underscore','backbone','q'
         },
 		
 		setBandwidth : function(bw){
-			if((bw>320) && (bw<1500)){
+			if((bw>=100) && (bw<=4096)){
 				this.maxBandwidth = bw;
 			}
 		},
