@@ -9,8 +9,8 @@ requirejs.config({
 });
 
 require(["webrtc-sdk"], function () {
-    console.log("sdk loaded, all is fine until now!!");
-    require(['main'], function() {
-        console.log("main.js loaded, all is fine until now!!");
+    console.log("(require): webrtc sdk loaded");
+    require(['example'], function() {
+        console.log("(require): example bjnrtcsdk app loaded");
     });
 });
