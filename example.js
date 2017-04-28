@@ -7,9 +7,9 @@ define([
     // Sample App src files
     "scripts/defaultRTCParams",
     "scripts/bjn-global",
-    "scripts/bjnrtcsdk"
+    "scripts/webrtcclientsdk"
 
-], function($, _, RTCManager, defaultRTCParams, BJN, bjnRtcSdk ) {
+], function($, _, RTCManager, defaultRTCParams, BJN, RTCClient ) {
 
     console.log("(example.js): BJN WebRTC Example");
 
@@ -52,7 +52,7 @@ define([
 			   
 			}
 		*/
-		bjnRtcSdk.initialize({
+		RTCClient.initialize({
 			localVideoEl: $("#localVideo")[0],
 			remoteVideoEl : $("#remoteVideo")[0],
 			bandWidth : $("#videoBw").prop('value'),
@@ -71,43 +71,43 @@ define([
 	$("#audioIn").change( function() {
 		var who = $("#audioIn").prop('selectedIndex');
 		console.log("UI: audio input changed: " + who);
-		bjnRtcSdk.changeAudioInput(who);
+		RTCClient.changeAudioInput(who);
 	});
 
 	$("#audioOut").change( function() {
 		var who = $("#audioOut").prop('selectedIndex');
 		console.log("UI: audio output changed: " + who );
-		bjnRtcSdk.changeAudioOutput(who);
+		RTCClient.changeAudioOutput(who);
 	});
 	
 	$("#videoIn").change( function() {
 		var who = $("#videoIn").prop('selectedIndex');
 		console.log("UI: video input changed: " + who );
-		bjnRtcSdk.changeVideoInput(who);
+		RTCClient.changeVideoInput(who);
 	});
 	
 	$("#videoBw").change( function() {
 		var bw = $("#videoBw").prop('value');
 		console.log("UI: Video BW is changed " + bw);
-		bjnRtcSdk.setVideoBandwidth(bw);
+		RTCClient.setVideoBandwidth(bw);
 	});
 	
 	
 	// Mute UI handlers
 	$("#toggleAudioMute").click(function() {
-        var muted = bjnRtcSdk.toggleAudioMute();
+        var muted = RTCClient.toggleAudioMute();
 		var updatedText = muted ? "Unmute Audio" : "Mute Audio";
 		$("#toggleAudioMute").html(updatedText);
 		console.log(muted ? "Audio is Muted now" : "Audio is Unmuted now");	
     });
 
     $("#toggleVideoMute").click(function() {
-        var muted = bjnRtcSdk.toggleVideoMute();
+        var muted = RTCClient.toggleVideoMute();
 		if(muted)
 			setMuteButton(muted);
 	});
 	
-	function unmuteVideo(muted) {
+	function unmuteVideo() {
 		setMuteButton(false);
 	};
 	
@@ -124,11 +124,11 @@ define([
             attendeePasscode    : $('#passCode').val(),
             displayName : "Arty C. Esdekay"
         };
-        bjnRtcSdk.joinMeeting(meetingParams);
+        RTCClient.joinMeeting(meetingParams);
     });
 
     $("#leaveMeeting").click(function() {
-        bjnRtcSdk.leaveMeeting();
+        RTCClient.leaveMeeting();
     });
 
 });

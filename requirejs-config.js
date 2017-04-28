@@ -2,7 +2,7 @@ requirejs.config({
     baseUrl: '',
 
     paths: {
-       "webrtc-sdk" : "./external/webrtcsdk",
+       "webrtc-sdk" : "./external/webrtcsdk.min",
        jquery: './external/jquery',
        underscore: './external/lodash'
     }
@@ -11,6 +11,6 @@ requirejs.config({
 require(["webrtc-sdk"], function () {
     console.log("(require): webrtc sdk loaded");
     require(['example'], function() {
-        console.log("(require): example bjnrtcsdk app loaded");
+        console.log("(require): example webrtc client app loaded");
     });
 });
