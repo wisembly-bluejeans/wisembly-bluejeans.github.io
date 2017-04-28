@@ -52,7 +52,7 @@ define(function (require) {
         localVideoEl = options.localVideoEl;
         remoteVideoEl = options.remoteVideoEl;
 
-		cbVideoMute = options.evtVideoMute;
+		cbVideoMute = options.evtVideoUnmute;
 		cbRemoteConnectionStateChange = options.evtRemoteConnectionStateChange;
 		cbLocalConnectionStateChange = options.evtLocalConnectionStateChange;
 		cbOnError = options.evtOnError;
