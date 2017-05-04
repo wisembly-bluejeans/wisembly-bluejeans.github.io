@@ -189,24 +189,9 @@ None
 
 The changeAudioInput() API configures the WebRTC Client SDK to use the audio from the specified Audio input device. This API affects calls in-progress.
 
-**Call By:**
-
-`RTCClient.changeAudioInput( *selector* )`
-
-**Parameters:**
-
-The *selector* parameter is the integer index into the audioIn array element of the Device object that was specified in the WebRTC Initialize() API call.
-
-**Returns:**
-
-None
-
-
-
 | changeAudioInput() | Select microphone-input to use           |
 | ------------------ | ---------------------------------------- |
-|                    | The changeAudioInput() API configures the WebRTC Client SDK to use the audio from the specified Audio input device. This API affects calls in-progress. |
-| Call By:           | `RTCClient.changeAudioInput( *selector* )` |
+| Call By:           | `RTCClient.changeAudioInput( selector )` |
 | Parameters:        | The *selector* parameter is the integer index into the audioIn array element of the Device object that was specified in the WebRTC Initialize() API call. |
 | Returns:           | None                                     |
 
@@ -252,7 +237,25 @@ None
 
 
 
+
+
+### **changeVideoInput2 () – Select camera-device for use**
+
+The changeVideoInput () API configures the WebRTC Client SDK to use the video from the specified video input device. This API affects calls in-progress.
+
+| changeVideoInput2() |            |                                          |
+| :------------------ | ---------- | ---------------------------------------- |
+|                     | Call by    | `RTCClient.changeVideoInput ( selector )` |
+|                     | Parameters | The *selector* parameter is the integer index into the videoIn array element of the Device object that was specified in the WebRTC Initialize() API call. |
+| Returns             | None       |                                          |
+
+
+
 ------
+
+
+
+
 
 ## **Meeting API’s**
 
