@@ -76,6 +76,7 @@ BlueJeans provides this Software Development Kit with the following code and rel
 <br />
 <br />
 <br />
+
 ## Development Environment
 
 The BlueJeans WebRTC Client SDK is built using the *RequireJS*, open source framework. This framework helps to manage Javascript object dependency injection and create an orderly application boot-process.
@@ -87,6 +88,7 @@ BlueJeans *recommends* creating a folder structure on your web host similar to w
 <br />
 <br />
 <br />
+
 # ![](./media/BlueJeans_Mark.png) SDK Architecture
 
 The BlueJeans WebRTC Client SDK models a simple video calling process. There are *five* logical components to a BlueJeans video session.
@@ -107,6 +109,7 @@ The SDK surface contains software API’s that a customer web page calls to init
 <br />
 <br />
 <br />
+
 ------
 
 ------
@@ -126,12 +129,14 @@ Because the BlueJeans RTC Client SDK deals with real time transactions, develope
 <br />
 <br />
 <br />
+
 ------
 
 ##  **Administrative API’s**
 <br />
 <br />
 <br />
+
 ### ![](./media/api.png) **Initialize()** – Initialize RTC client environment
 
 This API initializes the WebRTC client environment in preparation for making video calls over the BlueJeans network. It links the video media into the HTML DOM, establishes the limit on network bandwidth allocated for the video media, defines the media devices accessible to the client browser session, and provides callback event handlers.
@@ -312,6 +317,7 @@ None
 <br />
 <br />
 <br />
+
 ------
 
 ## **Participation API’s**
@@ -337,6 +343,7 @@ The API returns the expected new state for video media: *true* if video is muted
 <br />
 <br />
 <br />
+
 ### ![](./media/api.png) **toggleVideoMute()** – Change client’s Audio Mute state
 
 The toggleAudioMute() API call instructs the WebRTC SDK to mute or unmute the client’s microphone feed to the BJN call. If the local microphone was active, toggleAudioMute () will turn off the local microphone’s audio, and vice versa.
