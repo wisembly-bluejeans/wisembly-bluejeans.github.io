@@ -1,6 +1,6 @@
 # WebRTC Client SDK
 
-![BlueJeans](./images/927.png)
+![BlueJeans](./media/927.png)
 
 
 
@@ -79,7 +79,7 @@ The BlueJeans WebRTC Client SDK is built using the *RequireJS*, open source fram
 
 BlueJeans *recommends* creating a folder structure on your web host similar to what is shown here. This will simplify loading and initializing your web page with WebRTC
 
-![Project Structure](images/files.png)
+![Project Structure](media/files.png)
 
 
 
@@ -107,6 +107,8 @@ The SDK surface contains software API’s that a customer web page calls to init
 
 
 
+------
+
 # **SDK: The BlueJeans RTCClient Object**
 
 The BlueJeans RTC Client SDK object is a Javascript software object model for using BlueJeans video calling. It presents simple set of API’s for video calls that you can integrate into your web page. It includes Javascript function-callbacks in response to real time state changes associated with the video call, and or changes in device conditions.
@@ -126,9 +128,9 @@ Because the BlueJeans RTC Client SDK deals with real time transactions, develope
 
 ------
 
-## Administrative API’s
+## ![API](./media/BlueJeans_Mark.png){width="0.25in" height="0.25in"} Administrative API’s
 
-### **Initialize() – Initialize RTC client environment**
+### ![](./media/api.png) **Initialize() – Initialize RTC client environment**
 
 This API initializes the WebRTC client environment in preparation for making video calls over the BlueJeans network. It links the video media into the HTML DOM, establishes the limit on network bandwidth allocated for the video media, defines the media devices accessible to the client browser session, and provides callback event handlers.
 
@@ -144,16 +146,19 @@ RTCClient.initialize( { *initializationParameters* } );
 
 The *av\_devices* object contains the available sound and video devices for the client session. This list is retrieved using BlueJeans webrtcsdk function call, RTCManager.getLocalDevices(); Refer to the RTCManager SDK documentation for more information.
 
-`initializationParameters : {`
-`localVideoEl : <dom element for rendering local video>,`
-`remoteVideoEl : <dom element for rendering remote video>,`
-`bandWidth : &lt;100..4096&gt;, <in Kbps max allocated netwk b/w?>`
-`devices : { *av\_devices* }, <Media devices on users PC>`
-`evtVideoUnmute : <function>, <callback or null>`
-`evtRemoteConnectionStateChange : <function>, <callback or null>`
-`evtLocalConnectionStateChange : <function>, <callback or null>`
-`evtOnError : <function>, <callback or null>`
-`}`
+```Javascript
+initializationParameters : {
+   localVideoEl  : <dom element for rendering local video>,
+   remoteVideoEl : <dom element for rendering remote video>,
+   bandWidth     : <100..4096>, <in Kbps max allocated netwk b/w?>
+   devices       : { *av_devices* }, <Media devices on users PC>
+   evtVideoUnmute                 : <function>, <callback or null>
+   evtRemoteConnectionStateChange : <function>, <callback or null>
+   evtLocalConnectionStateChange  : <function>, <callback or null>
+   evtOnError                     : <function>, <callback or null>
+}
+```
+
 
 **Returns:**
 
@@ -161,7 +166,7 @@ none
 
 
 
-### **setVideoBandwidth() – Set the network limit for video bit-rate** 
+### ![](./media/api.png)**setVideoBandwidth() – Set the network limit for video bit-rate** 
 
 The setVideoBandwith() API configures the RTC Client with the maximum network video bitrate for subsequent calls. Note that the settings do not affect a call that is in-progress.
 
@@ -185,21 +190,27 @@ None
 
 ## **Device API’s**
 
-### **changeAudioInput() – Select microphone-input to use**
+### **![](./media/api.png) changeAudioInput() – Select microphone-input to use**
 
 The changeAudioInput() API configures the WebRTC Client SDK to use the audio from the specified Audio input device. This API affects calls in-progress.
 
-| changeAudioInput() | Select microphone-input to use           |
-| ------------------ | ---------------------------------------- |
-| Call By:           | `RTCClient.changeAudioInput( selector )` |
-| Parameters:        | The *selector* parameter is the integer index into the audioIn array element of the Device object that was specified in the WebRTC Initialize() API call. |
-| Returns:           | None                                     |
+**Call By:**
+
+`RTCClient.changeAudioInput( selector )`
+
+**Parameters:**
+
+The *selector* parameter is the integer index into the audioIn array element on the Device object that was specified in the WebRTC Initialize() API call.
+
+**Returns:**
+
+None
 
 
 
 
 
-### **changeAudioOutput() – Select speaker-device for use**
+### **![](./media/api.png) changeAudioOutput() – Select speaker-device for use**
 
 The changeAudioOutput () API configures the WebRTC Client SDK to send audio to the specified Audio output device. This API affects calls in-progress.
 
@@ -219,7 +230,7 @@ None
 
 
 
-### **changeVideoInput () – Select camera-device for use**
+### **![](./media/api.png) changeVideoInput () – Select camera-device for use**
 
 The changeVideoInput () API configures the WebRTC Client SDK to use the video from the specified video input device. This API affects calls in-progress.
 
@@ -239,27 +250,11 @@ None
 
 
 
-### **changeVideoInput2 () – Select camera-device for use**
-
-The changeVideoInput () API configures the WebRTC Client SDK to use the video from the specified video input device. This API affects calls in-progress.
-
-| changeVideoInput2() |            |                                          |
-| :------------------ | ---------- | ---------------------------------------- |
-|                     | Call by    | `RTCClient.changeVideoInput ( selector )` |
-|                     | Parameters | The *selector* parameter is the integer index into the videoIn array element of the Device object that was specified in the WebRTC Initialize() API call. |
-| Returns             | None       |                                          |
-
-
-
 ------
 
+## ![](./media/BlueJeans_Mark.png) **Meeting API’s**
 
-
-
-
-## **Meeting API’s**
-
-### **joinMeeting () – Join/start BlueJeans meeting**
+### ![](./media/api.png) **joinMeeting () – Join/start BlueJeans meeting**
 
 The joinMeeting() API function connects the web client into the specified BlueJeans video meeting using *optionally* provided passcode. If the meeting was scheduled requiring a host code to start, joinMeeting() can start the meeting if the passcode contains the host code.
 
@@ -271,23 +266,22 @@ This will initiate the video being rendered on the client HTML page via WebRTC.
 
 **Parameters:**
 
-`meetingParams is a JSON object that contains information related to the meeting to be started as well as this client’s participation access.`
+meetingParams is a JSON object that contains information related to the meeting to be started as well as this client’s participation access.
 
-``meetingParams : {``
-
-`meetingId : ‘string’, *meeting id,*`
-
-`passcode: ‘string’, *optional: include only if meeting requires passcode*`
-
-`userName : ‘string’ *Text displayed in roster*`
-
-`}`
+```Javascript
+meetingParams : {
+    meetingId : ‘string’, meeting id,
+    passcode  : ‘string’, optional: include only if meeting requires passcode
+    userName  : ‘string’ *Text displayed in roster
+}
+```
 
 **Returns:**
 
 None
 
-### **leaveMeeting() – Exit the Video session**
+
+### ![](./media/api.png) **leaveMeeting() – Exit the Video session**
 
 The leaveMeeting() API function instructs RTCManager to disconnect the video streams, and exit the BlueJeans video call.
 
@@ -309,7 +303,7 @@ None
 
 ## **Participation API’s**
 
-### **toggleVideoMute() – Change client’s Video Mute state**
+### ![](./media/api.png) **toggleVideoMute() – Change client’s Video Mute state**
 
 The toggleVideoMute() API call instructs the WebRTC Client SDK to mute or unmute the client’s video feed to the BJN call. If the local video was active, toggleVideoMute() will turn off the local video, and vice versa.
 
@@ -327,7 +321,7 @@ The API returns the expected new state for video media: *true* if video is muted
 
 
 
-### **toggleVideoMute() – Change client’s Audio Mute state**
+### ![](./media/api.png) **toggleVideoMute() – Change client’s Audio Mute state**
 
 The toggleAudioMute() API call instructs the WebRTC SDK to mute or unmute the client’s microphone feed to the BJN call. If the local microphone was active, toggleAudioMute () will turn off the local microphone’s audio, and vice versa.
 
@@ -349,17 +343,16 @@ The API returns the expected new state for audio media: *true* if audio is muted
 
 ------
 
-## **WebRTC Client SDK event callbacks**
+## ![](./media/BlueJeans_Mark.png) **WebRTC Client SDK event callbacks**
 
 Partner web app can listen to the RTCClient event handles and take appropriate actions on the callbacks.
 
 <u>List of events</u>
 
-| Event                                 | Description                              |
-| ------------------------------------- | ---------------------------------------- |
-| evtVideoUnmute()                      | This event is triggered when the client’s local video is unmuted and the media stream is being reestablished. |
-| evtRemoteConnectionStateChange(state) | This event is triggered when the remote video connection changes state. The event callback returns the WebRTC-specific state condition. |
-| evtLocalConnectionStateChange(state)  | This event is triggered when the local video connection changes state. The event callback returns the WebRTC-specific state condition. |
-| evtOnError(what)                      | This event triggers when the BlueJeans RTCManager object encounters a low-level RTC error. The callback returns a BlueJeans’ descriptor indicating the problem-area. |
-
+| Event                                   | Description                              |
+| --------------------------------------- | ---------------------------------------- |
+| `evtVideoUnmute()`                      | This event is triggered when the client’s local video is unmuted and the media stream is being reestablished. |
+| `evtRemoteConnectionStateChange(state)` | This event is triggered when the remote video connection changes state. The event callback returns the WebRTC-specific state condition. |
+| `evtLocalConnectionStateChange(state)`  | This event is triggered when the local video connection changes state. The event callback returns the WebRTC-specific state condition. |
+| `evtOnError(what)`                      | This event triggers when the BlueJeans RTCManager object encounters a low-level RTC error. The callback returns a BlueJeans’ descriptor indicating the problem-area. |
 
