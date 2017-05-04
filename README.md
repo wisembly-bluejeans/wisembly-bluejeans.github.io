@@ -128,12 +128,10 @@ Because the BlueJeans RTC Client SDK deals with real time transactions, develope
 <br />
 <br />
 <br />
-<br />
 
 ------
 
 ##  **Administrative API’s**
-<br />
 <br />
 <br />
 
@@ -199,8 +197,6 @@ None
 ## **Device API’s**
 <br />
 <br />
-<br />
-
 
 ### **![](./media/api.png) changeAudioInput()** – Select microphone-input to use
 
@@ -266,7 +262,6 @@ None
 
 <br />
 <br />
-<br />
 
 ### ![](./media/api.png) **joinMeeting()** – Join/start BlueJeans meeting
 
@@ -321,7 +316,6 @@ None
 ------
 
 ## **Participation API’s**
-<br />
 <br />
 <br />
 
