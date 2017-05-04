@@ -13,9 +13,15 @@ Document Date: 2017-05-02
 | 0.9.0   | 4/27/2017 | g1   | Initial Checkin of Client SDK doc        |
 | 0.9.1   | 5/2/2017  | g1   | Clean-up typos.  Add revs to S/W modules |
 
-​                                      
+  
 
-# Introduction
+[TOC]
+
+
+
+
+
+# ![](./media/BlueJeans_Mark.png)  Introduction
 
 Adding video calling ability to your own web page creates a connection between your business and your customers in a very personal way. The BlueJeans Web Real Time Communications (RTC) Client Software Development Kit (SDK) gives developers a quick and easy way to bring video-calling into a web page utilizing:
 
@@ -27,9 +33,7 @@ Adding video calling ability to your own web page creates a connection between y
 
 The WebRTC Client SDK enables application programmers to create rich video calls ***without*** the need to know great details behind video technology. You can focus on your business application needs and let BlueJeans take care of the video calling.
 
-
-
-
+  
 
 ## Requirements
 
@@ -43,7 +47,7 @@ The requirements to create applications embedded with BlueJeans Web RTC SDK are 
 | **Installed Frameworks** | JQuery                | ver 1.82 or later       |
 |                          | Require JS            | ver 2.11 or later       |
 
-
+  
 
 Additionally, these business conditions must be in place in order for your customers to make BlueJeans video calls from your web page:
 
@@ -53,11 +57,14 @@ Additionally, these business conditions must be in place in order for your custo
 | Preassigned Meeting Pool | Opt'l     | BlueJeans allocates a finite pool of meetings that your web page connects for video sessions |
 | onVideo API Scheduling   | Opt'l     | Hosting web site makes backend API calls utilizing BlueJeans onVideo API’s to schedule meetings. |
 
+  
+
+  
+
+  
 
 
-
-
-# What Is Included in this SDK
+# ![](./media/BlueJeans_Mark.png)  What Is Included in this SDK
 
 BlueJeans provides this Software Development Kit with the following code and related files:
 
@@ -71,7 +78,7 @@ BlueJeans provides this Software Development Kit with the following code and rel
 | **defaultRTCParams.js** | Default configuration parameters for RTC session |
 | **bjn-global.js**       | RequireJS-compliant abstraction for RTC object |
 
-
+  
 
 ## Development Environment
 
@@ -81,11 +88,11 @@ BlueJeans *recommends* creating a folder structure on your web host similar to w
 
 ![Project Structure](media/files.png)
 
+  
 
 
 
-
-# **SDK Architecture**
+# ![](./media/BlueJeans_Mark.png) SDK Architecture
 
 The BlueJeans WebRTC Client SDK models a simple video calling process. There are *five* logical components to a BlueJeans video session.
 
@@ -101,15 +108,16 @@ The SDK surface contains software API’s that a customer web page calls to init
 | **Administrative**      | The Administrative Model represents the general overhead of a BlueJeans WebRTC session. |
 | **Events**              | The Events Model allows real time BlueJeans video events to notify customer applications in a timely manner. These callbacks are implemented as Javascript function calls. |
 
+  
 
-
-
-
-
+  
 
 ------
 
-# **SDK: The BlueJeans RTCClient Object**
+------
+
+
+# ![](./media/BlueJeans_Mark.png) SDK: The BlueJeans RTCClient Object
 
 The BlueJeans RTC Client SDK object is a Javascript software object model for using BlueJeans video calling. It presents simple set of API’s for video calls that you can integrate into your web page. It includes Javascript function-callbacks in response to real time state changes associated with the video call, and or changes in device conditions.
 
@@ -119,18 +127,17 @@ Because the BlueJeans RTC Client SDK deals with real time transactions, develope
 -   Developer familiarity with Javascript Promise functionality is required.
 -   Nested calls to API’s may require the use of Javascript promises in order to maintain consistency.
 
+    ​
 
-
-
-
-
-
+    ​
 
 ------
 
-## ![API](./media/BlueJeans_Mark.png){width="0.25in" height="0.25in"} Administrative API’s
+##  **Administrative API’s**
 
-### ![](./media/api.png) **Initialize() – Initialize RTC client environment**
+  
+
+### ![](./media/api.png) **Initialize()** – Initialize RTC client environment
 
 This API initializes the WebRTC client environment in preparation for making video calls over the BlueJeans network. It links the video media into the HTML DOM, establishes the limit on network bandwidth allocated for the video media, defines the media devices accessible to the client browser session, and provides callback event handlers.
 
@@ -164,9 +171,9 @@ initializationParameters : {
 
 none
 
+  
 
-
-### ![](./media/api.png)**setVideoBandwidth() – Set the network limit for video bit-rate** 
+### ![](./media/api.png)**setVideoBandwidth()** – Set the network limit for video bit-rate 
 
 The setVideoBandwith() API configures the RTC Client with the maximum network video bitrate for subsequent calls. Note that the settings do not affect a call that is in-progress.
 
@@ -182,15 +189,15 @@ The bitrate parameter specified, in Kilobits Per Second, the maximum video data 
 
 None
 
+   
 
-
-
+  
 
 ------
 
 ## **Device API’s**
 
-### **![](./media/api.png) changeAudioInput() – Select microphone-input to use**
+### **![](./media/api.png) changeAudioInput()** – Select microphone-input to use
 
 The changeAudioInput() API configures the WebRTC Client SDK to use the audio from the specified Audio input device. This API affects calls in-progress.
 
@@ -206,11 +213,9 @@ The *selector* parameter is the integer index into the audioIn array element on 
 
 None
 
+  
 
-
-
-
-### **![](./media/api.png) changeAudioOutput() – Select speaker-device for use**
+### **![](./media/api.png) changeAudioOutput()** – Select speaker-device for use
 
 The changeAudioOutput () API configures the WebRTC Client SDK to send audio to the specified Audio output device. This API affects calls in-progress.
 
@@ -226,11 +231,9 @@ The *selector* parameter is the integer index into the audioOut array element on
 
 None
 
+  
 
-
-
-
-### **![](./media/api.png) changeVideoInput () – Select camera-device for use**
+### **![](./media/api.png) changeVideoInput()** – Select camera-device for use
 
 The changeVideoInput () API configures the WebRTC Client SDK to use the video from the specified video input device. This API affects calls in-progress.
 
@@ -246,15 +249,15 @@ The *selector* parameter is the integer index into the videoIn array element of 
 
 None
 
-
-
-
+  
 
 ------
 
-## ![](./media/BlueJeans_Mark.png) **Meeting API’s**
+## **Meeting API’s**
 
-### ![](./media/api.png) **joinMeeting () – Join/start BlueJeans meeting**
+  
+
+### ![](./media/api.png) **joinMeeting()** – Join/start BlueJeans meeting
 
 The joinMeeting() API function connects the web client into the specified BlueJeans video meeting using *optionally* provided passcode. If the meeting was scheduled requiring a host code to start, joinMeeting() can start the meeting if the passcode contains the host code.
 
@@ -280,8 +283,9 @@ meetingParams : {
 
 None
 
+  
 
-### ![](./media/api.png) **leaveMeeting() – Exit the Video session**
+### ![](./media/api.png) **leaveMeeting()** – Exit the Video session
 
 The leaveMeeting() API function instructs RTCManager to disconnect the video streams, and exit the BlueJeans video call.
 
@@ -297,13 +301,15 @@ None
 
 None
 
+  
 
+  
 
 ------
 
 ## **Participation API’s**
 
-### ![](./media/api.png) **toggleVideoMute() – Change client’s Video Mute state**
+### ![](./media/api.png) **toggleVideoMute()** – Change client’s Video Mute state
 
 The toggleVideoMute() API call instructs the WebRTC Client SDK to mute or unmute the client’s video feed to the BJN call. If the local video was active, toggleVideoMute() will turn off the local video, and vice versa.
 
@@ -319,9 +325,9 @@ None.
 
 The API returns the expected new state for video media: *true* if video is muted, *false* if video is live.
 
+  
 
-
-### ![](./media/api.png) **toggleVideoMute() – Change client’s Audio Mute state**
+### ![](./media/api.png) **toggleVideoMute()** – Change client’s Audio Mute state
 
 The toggleAudioMute() API call instructs the WebRTC SDK to mute or unmute the client’s microphone feed to the BJN call. If the local microphone was active, toggleAudioMute () will turn off the local microphone’s audio, and vice versa.
 
@@ -337,11 +343,11 @@ None.
 
 The API returns the expected new state for audio media: *true* if audio is muted, *false* if audio is live.
 
+  
 
+  
 
-
-
-------
+  
 
 ## ![](./media/BlueJeans_Mark.png) **WebRTC Client SDK event callbacks**
 
