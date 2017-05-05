@@ -143,7 +143,7 @@ Initialize() should be the very first action that you perform in preparation to 
 
 **Call by:**
 
-RTCClient.initialize( { *initializationParameters* } );
+`RTCClient.initialize( { initializationParameters } );`
 
 **Parameters:**
 
@@ -223,7 +223,7 @@ The changeAudioOutput () API configures the WebRTC Client SDK to send audio to t
 
 **Call By:**
 
-`RTCClient.changeAudioOutput( *selector* )`
+`RTCClient.changeAudioOutput( selector )`
 
 **Parameters:**
 
@@ -242,7 +242,7 @@ The changeVideoInput () API configures the WebRTC Client SDK to use the video fr
 
 **Call By:**
 
-`RTCClient.changeVideoInput ( *selector* )`
+`RTCClient.changeVideoInput ( selector )`
 
 **Parameters:**
 
@@ -325,7 +325,7 @@ The toggleVideoMute() API call instructs the WebRTC Client SDK to mute or unmute
 
 **Call By:**
 
-`*muteState* = RTCClient.toggleVideoMute();`
+`muteState = RTCClient.toggleVideoMute();`
 
 **Parameters**
 
@@ -344,7 +344,7 @@ The toggleAudioMute() API call instructs the WebRTC SDK to mute or unmute the cl
 
 **Call By:**
 
-`*muteState* = RTCClient.toggleAudioMute();`
+`muteState = RTCClient.toggleAudioMute();`
 
 **Parameters**
 
