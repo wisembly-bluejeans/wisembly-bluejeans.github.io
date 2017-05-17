@@ -12,6 +12,14 @@ define([
 ], function($, _, RTCManager, defaultRTCParams, BJN, RTCClient ) {
 
     console.log("(example.js): BJN WebRTC Example");
+	
+	$("#joinMeeting, #leaveMeeting").click(function(){
+		$(this).addClass("hidden");
+		$(this).siblings().removeClass("hidden");
+	});
+	$("#toggleVideoMute, #toggleAudioMute").click(function(){
+		$(this).toggleClass("muted");
+	});
 
     // Initiate BJN SDK, refer defaultRTCParams.js 
     // Add timeout values
@@ -30,6 +38,7 @@ define([
 		
         // Add audio in devices to the selection list
         avail.audioIn.forEach( function(device) {
+			console.log("audioIn device: " + device.label);
             $('#audioIn').append('<option>' + device.label +'</option>');
         });
         avail.audioOut.forEach(function(device) {
@@ -122,7 +131,7 @@ define([
 		var meetingParams = {
             numericMeetingId   : $('#id').val(),
             attendeePasscode    : $('#passCode').val(),
-            displayName : "Arty C. Esdekay"
+            displayName : $('#yourName').val()
         };
         RTCClient.joinMeeting(meetingParams);
     });
