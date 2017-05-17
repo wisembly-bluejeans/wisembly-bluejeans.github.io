@@ -12,6 +12,7 @@ Document Date: 2017-05-02
 | ------- | --------- | ---- | ---------------------------------------- |
 | 0.9.0   | 4/27/2017 | g1   | Initial Checkin of Client SDK doc        |
 | 0.9.1   | 5/2/2017  | g1   | Clean-up typos.  Add revs to S/W modules |
+| 0.9.2   | 5/17/2017 | g1   | Update project styling. Change required build files |
 
 
 <br />
