@@ -169,6 +169,7 @@ define(function (require) {
     // End the meeting
     var leaveMeeting = function(event) {
         RTCManager.endMeeting();
+		startLocalStream();
     };
 
 
