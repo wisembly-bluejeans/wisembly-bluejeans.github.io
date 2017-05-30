@@ -127,7 +127,8 @@ define(function (require) {
 		var dev = BJN.localDevices.audioOut[ who ].id;
 		console.log("Audio Output is changed: " + dev );
 		mediaConstraints.audio.optional.push( { sourceId: dev } );
-		BJN.RTCManager.setSpeaker({ speakerId : dev, mediaElements : remoteVideoEl });
+		//5/30/2017 - bugfix pass mediaElements value as an array rather than discrete object
+		BJN.RTCManager.setSpeaker({ speakerId : dev, mediaElements : [remoteVideoEl] });
 	};
 
 	var setVideoBandwidth = function(bw){
