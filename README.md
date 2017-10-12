@@ -8,10 +8,12 @@ Document Version: 0.9.2
 
 Document Date: 2017-05-17
 
-| Version | Date      | Who  | Description                              |
-| ------- | --------- | ---- | ---------------------------------------- |
-| 0.9.0   | 4/27/2017 | g1   | Initial Checkin of Client SDK doc        |
-| 0.9.1   | 5/2/2017  | g1   | Clean-up typos.  Add revs to S/W modules |
+| Version | Date      | Who  | Description                                |
+| ------- | --------- | ---- | ------------------------------------------ |
+| 1.0.0   | 10/12/2017| g1   | Upgrade backend webrtc-sdk.js with Firefox |
+|         |           |      | and patch for pre-call media request       |
+| 0.9.0   | 4/27/2017 | g1   | Initial Checkin of Client SDK doc          |
+| 0.9.1   | 5/2/2017  | g1   | Clean-up typos.  Add revs to S/W modules   |
 | 0.9.2   | 5/17/2017 | g1   | Update project with Corporate styling.  Adjust required build files |
 
 
@@ -41,7 +43,8 @@ The requirements to create applications embedded with BlueJeans Web RTC SDK are 
 | Technology Requirement   | Condition             | Minimum                 |
 | ------------------------ | --------------------- | ----------------------- |
 | **Browser Support**      | Google Chrome         | Ver. 58.0.3029 or later |
-|                          | Firefox               | (pending)               |
+|                          | Firefox               | Ver. 50 or later        |
+|                          | Safari                | (pending)               |
 | **Code Development**     | Javascript, HTML, CSS |                         |
 | **Installed Frameworks** | JQuery                | ver 1.82 or later       |
 |                          | Require JS            | ver 2.11 or later       |
