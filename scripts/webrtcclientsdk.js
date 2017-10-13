@@ -1,6 +1,6 @@
 
 define(function (require) {
-
+console.log("(webrtcclientsdk.js) client Ref Design loading...");
     var _       			= require('underscore');
     var Q 					= require('q');
     var $					= require('jquery');
@@ -16,19 +16,27 @@ define(function (require) {
         }
 	};
 
-    var mediaConstraints=  {
+/* Original - Chrome only version
+    var mediaConstraints =  {
         audio:{
             optional:[],
             mandatory:[]
         },
         video:{
-            optional:[{ minWidth: 1280 }, { minHeight: 720 }],
-            mandatory:[]
+        }
+    };
+*/
+	
+    var mediaConstraints=  {
+        audio:{
+        },
+        video:{
         }
     };
 
 	var localVideoEl = null;
 	var remoteVideoEl = null;
+	var MediaStarted = false;  // new for ffox
 	
 	// client callbacks
 	var cbVideoMute = null;
@@ -57,18 +65,17 @@ define(function (require) {
 		cbLocalConnectionStateChange = options.evtLocalConnectionStateChange;
 		cbOnError = options.evtOnError;
 
-        RTCManager = BJN.RTCManager;
         BJN.RTCManager.setBandwidth(options.bandWidth);
+		MediaStarted = false;
 		startLocalStream();
 		
 		// get hooks to RTCManager callbacks
-		RTCManager.localVideoStreamChange		= updateSelfView;
-		RTCManager.localAudioStreamChange		= updateAudioPath;
-        RTCManager.remoteEndPointStateChange    = onRemoteConnectionStateChange;
-        RTCManager.localEndPointStateChange     = onLocalConnectionStateChange;
-        RTCManager.remoteStreamChange           = onRemoteStreamUpdated;
-        RTCManager.error                        = onRTCError;
-
+		BJN.RTCManager.localVideoStreamChange		= updateSelfView;
+		BJN.RTCManager.localAudioStreamChange		= updateAudioPath;
+        BJN.RTCManager.remoteEndPointStateChange    = onRemoteConnectionStateChange;
+        BJN.RTCManager.localEndPointStateChange     = onLocalConnectionStateChange;
+        BJN.RTCManager.remoteStreamChange           = onRemoteStreamUpdated;
+        BJN.RTCManager.error                        = onRTCError;
 		};
 
 	//Get the local A/V stream, this stream will be used to for the webrtc connection
@@ -76,9 +83,31 @@ define(function (require) {
 	// stream[0] - local audio stream
 	// stream[1] - local video stream
     var startLocalStream = function() {
+
+        var streamType = 'local_stream';
+        if(MediaStarted)
+        	streamType = 'preview_stream';
+		
+        BJN.RTCManager.getLocalMedia(mediaConstraints, streamType).then(function(stream) {
+/* Original - Chrome only version
         RTCManager.getLocalMedia(mediaConstraints, 'local_stream').then(function(stream) {
             BJN.localAudioStream = stream[0];
             BJN.localVideoStream = stream[1];
+*/
+
+//---------- New for Firefox ------------------
+			for (var i = 0; i < stream.length; i++) {
+				if(stream[i].bjn_label === "local_audio_stream") {
+					BJN.localAudioStream = stream[i]
+				} else if(stream[i].bjn_label === "local_video_stream") {
+					BJN.localVideoStream = stream[i];
+				}
+			}
+			
+			updateSelfView(BJN.localVideoStream);
+			//Uncomment the below line, if we want to change device in-meeting
+            MediaStarted = true;
+			
 			if(cbVideoMute) 
 				cbVideoMute();
         }, function(err){
@@ -89,7 +118,7 @@ define(function (require) {
 	//Callback for local video stream change, it can be used to render self view when the stream is available
     var updateSelfView = function (localStream) {
         if(localStream) {
-			RTCManager.renderSelfView({
+			BJN.RTCManager.renderSelfView({
                  stream: localStream,
                  el: localVideoEl
              });
@@ -110,15 +139,21 @@ define(function (require) {
 	var changeAudioInput = function(who) {
 		var dev = BJN.localDevices.audioIn[ who ].id;
 		console.log("Audio Input is changed: " + dev ); 
+/*  Original Chrome
 		mediaConstraints.audio.optional.push( { sourceId: dev } );
+*/
+		mediaConstraints.audio.deviceId = dev;
 		BJN.RTCManager.stopLocalStreams();
 		startLocalStream();
 	};
 
 	var changeVideoInput = function(who) {
-		var dev = BJN.localDevices.audioIn[ who ].id;
+		var dev = BJN.localDevices.videoIn[ who ].id;
 		console.log("Video Input is changed: " + dev );
+/*  Original Chrome
 		mediaConstraints.video.optional.push( { sourceId: dev } );
+*/
+		mediaConstraints.video.deviceId = dev;
 		BJN.RTCManager.stopLocalStreams();
 		startLocalStream();
 	};
@@ -126,8 +161,10 @@ define(function (require) {
 	var changeAudioOutput = function(who) {
 		var dev = BJN.localDevices.audioOut[ who ].id;
 		console.log("Audio Output is changed: " + dev );
+/*  Original Chrome
 		mediaConstraints.audio.optional.push( { sourceId: dev } );
-		//5/30/2017 - bugfix pass mediaElements value as an array rather than discrete object
+*/
+		// 5/30/2017 - bugfix pass mediaElements value as an array rather than discrete object
 		BJN.RTCManager.setSpeaker({ speakerId : dev, mediaElements : [remoteVideoEl] });
 	};
 
@@ -144,14 +181,14 @@ define(function (require) {
 	var toggleAudioMute = function(event) {
 		var audioMuted = config.muteParams.localAudio ? true : false;
 		config.muteParams.localAudio = !audioMuted;
-		RTCManager.muteStreams(config.muteParams);		
+		BJN.RTCManager.muteStreams(config.muteParams);		
 		return !audioMuted;
 	};
 
 	var toggleVideoMute = function(event) {
 		var videoMuted = config.muteParams.localVideo ? true : false;
 		config.muteParams.localVideo = !videoMuted;
-		RTCManager.muteStreams(config.muteParams);
+		BJN.RTCManager.muteStreams(config.muteParams);
 		return !videoMuted;
 	};
 
@@ -163,14 +200,14 @@ define(function (require) {
     var joinMeeting = function(meetingParams) {
 		if( (meetingParams.numericMeetingId != "") && (meetingParams.displayName != "")) {
 			console.log("*** Joining meeting id: " + meetingParams.numericMeetingId);
-			RTCManager.startMeeting(meetingParams);
+			BJN.RTCManager.startMeeting(meetingParams);
 		}
     };
 
     // End the meeting
     var leaveMeeting = function(event) {
-        RTCManager.endMeeting();
-		startLocalStream();
+        BJN.RTCManager.endMeeting();
+		console.log("Leaving meeting");
     };
 
 
@@ -188,7 +225,7 @@ define(function (require) {
         BJN.remoteStream = stream;
         if (stream) {
 			console.log('Remote stream updated');
-            RTCManager.renderStream({
+            BJN.RTCManager.renderStream({
                 stream: BJN.remoteStream,
                 el: remoteVideoEl
             });
