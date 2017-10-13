@@ -10,6 +10,7 @@ Document Date: 2017-05-17
 
 | Version | Date      | Who  | Description                                |
 | ------- | --------- | ---- | ------------------------------------------ |
+| 1.0.1   | 10/13/2017| g1   | Update webrtcclientsdk.js file to support firefox |
 | 1.0.0   | 10/12/2017| g1   | Upgrade backend webrtc-sdk.js with Firefox |
 |         |           |      | and patch for pre-call media request       |
 | 0.9.0   | 4/27/2017 | g1   | Initial Checkin of Client SDK doc          |
