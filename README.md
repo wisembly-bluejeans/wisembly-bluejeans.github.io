@@ -53,12 +53,12 @@ The requirements to create applications embedded with BlueJeans Web RTC SDK are 
 <br />
 <br />
 
-WebRTC has requirements on network configuration regarding TCP/UDP ports and host access.  For specific information refer to the 
+WebRTC has requirements on network configuration regarding TCP/UDP ports and host access.  For specific information refer to the [BlueJeans WebRTC Support Page](https://support.bluejeans.com/knowledge/tcp-udp-ports)
 
 <br />
 <br />
 
-Additionally, these business conditions must be in place in order for your customers to make BlueJeans video calls from your web page: [BlueJeans WebRTC Support Page](https://support.bluejeans.com/knowledge/tcp-udp-ports)
+Additionally, these business conditions must be in place in order for your customers to make BlueJeans video calls from your web page: 
 
 | Business Requirement     | Condition | Description                              |
 | ------------------------ | --------- | ---------------------------------------- |
