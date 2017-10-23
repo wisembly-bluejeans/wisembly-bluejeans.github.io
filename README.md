@@ -10,6 +10,7 @@ Document Date: 2017-05-17
 
 | Version | Date      | Who  | Description                                |
 | ------- | --------- | ---- | ------------------------------------------ |
+| 1.0.2   | 10/23/2017| g1   | add reference network requirements for WebRTC |
 | 1.0.1   | 10/13/2017| g1   | Update webrtcclientsdk.js file to support firefox |
 | 1.0.0   | 10/12/2017| g1   | Upgrade backend webrtc-sdk.js with Firefox |
 |         |           |      | and patch for pre-call media request       |
@@ -52,13 +53,18 @@ The requirements to create applications embedded with BlueJeans Web RTC SDK are 
 <br />
 <br />
 
-Additionally, these business conditions must be in place in order for your customers to make BlueJeans video calls from your web page:
+WebRTC has requirements on network configuration regarding TCP/UDP ports and host access.  For specific information refer to the 
+
+<br />
+<br />
+
+Additionally, these business conditions must be in place in order for your customers to make BlueJeans video calls from your web page: [BlueJeans WebRTC Support Page](https://support.bluejeans.com/knowledge/tcp-udp-ports)
 
 | Business Requirement     | Condition | Description                              |
 | ------------------------ | --------- | ---------------------------------------- |
 | Domain whitelisting      | Req'd     | BlueJeans must add your hosting website to its domain whitelist for WebRTC calls.  The standard for Web Security (CORS) requires this whitelisting.  Contact [BlueJeans support](mailto:Support@bluejeans.com) when ready to be added to the whitelist. |
 | Preassigned Meeting Pool | Opt'l     | BlueJeans allocates a finite pool of meetings that your web page connects for video sessions |
-| onVideo API Scheduling   | Opt'l     | Hosting web site makes backend API calls utilizing BlueJeans onVideo API’s to schedule meetings. |
+| Meetings API Scheduling   | Opt'l     | Hosting web site makes backend API calls utilizing BlueJeans Meetings API’s to schedule meetings. |
 <br />
 <br />
 <br />
