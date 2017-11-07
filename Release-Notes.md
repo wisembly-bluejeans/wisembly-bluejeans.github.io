@@ -1,5 +1,5 @@
 # WebRTC Client SDK
-## Release Notes:  ver 1.0.1
+## Release Notes:  ver 1.0.3
 ### Oct 2017,  Glenn Inn,  Technical Lead API & Partnerships
 
 ![BlueJeans](./media/927.png)
@@ -10,6 +10,8 @@ Document Date: 2017-10-13
 
 | Version | Date       | Who  | Description                              |
 | ------- | ---------- | ---- | ---------------------------------------- |
+| 1.0.3   | 11/07/2017 | g1   | Update webrtcsdk.min.js to fix Chrome on Andoid |
+| 1.0.2   | 10/23/2017 | g1   | Add link to Network Configuration for WebRTC |
 | 1.0.1   | 10/13/2017 | g1   | Upgrade webrtcclientsdk.js to be compatible |
 |         |            |      | with Firefox browsers                    |
 |         |            |      | and patch for pre-call media request     |
@@ -22,6 +24,10 @@ Document Date: 2017-10-13
 
 
 ## In This Release
+
+The 1.0.3 version fixes the defect that prevented WebRTC from running on Chrome / Android.
+
+The 1.0.2 release included a link to BlueJeans support site reference for network configuration to support WebRTC calling.  Support for WebRTC on Chrome running on Android is broken in this release. Firefox and Chrome on Windows and Mac are working as expected.
 
 The 1.0.1 release contains all the WebRTC components to support both Chrome and Firefox browsers. These involved both back-end (webrtcsdk.min.js) as well as client-facing (webrtcclientsdk.js) files.  Additionally, these changes are included/exposed:
 
