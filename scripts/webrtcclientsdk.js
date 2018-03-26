@@ -15,6 +15,12 @@ console.log("(webrtcclientsdk.js) client Ref Design loading...");
             localVideo: false
         }
 	};
+	
+	const sdkVersion = {
+		major : 1,
+		minor : 1,
+		build : 0	
+	};
 
 /* Original - Chrome only version
     var mediaConstraints =  {
@@ -43,6 +49,7 @@ console.log("(webrtcclientsdk.js) client Ref Design loading...");
     var cbRemoteConnectionStateChange = null;
     var cbLocalConnectionStateChange = null;
 	var cbOnError = null;
+	var cbContentShareStateChange = null;
 	
 	/*
 	   options : {
@@ -53,7 +60,8 @@ console.log("(webrtcclientsdk.js) client Ref Design loading...");
 		   evtVideoUnmute  : callback(),
 		   evtRemoteConnectionStateChange : callback(),
 		   evtLocalConnectionStateChange : callback(),
-		   evtOnError : callback()
+		   evtOnError : callback(),
+		   evtContentShareStateChange : callback()  // ver 1.1.x
 	*/
     var initialize = function(options) {
 		console.log("bjnrtcsdk initializing");
@@ -64,6 +72,11 @@ console.log("(webrtcclientsdk.js) client Ref Design loading...");
 		cbRemoteConnectionStateChange = options.evtRemoteConnectionStateChange;
 		cbLocalConnectionStateChange = options.evtLocalConnectionStateChange;
 		cbOnError = options.evtOnError;
+		
+		// ver 1.1.x
+		if(options.evtContentShareStateChange){
+			cbContentShareStateChange = options.evtContentShareStateChange;
+		}
 
         BJN.RTCManager.setBandwidth(options.bandWidth);
 		MediaStarted = false;
@@ -76,6 +89,7 @@ console.log("(webrtcclientsdk.js) client Ref Design loading...");
         BJN.RTCManager.localEndPointStateChange     = onLocalConnectionStateChange;
         BJN.RTCManager.remoteStreamChange           = onRemoteStreamUpdated;
         BJN.RTCManager.error                        = onRTCError;
+		BJN.RTCManager.contentStreamChange			= onContentShareStateChange;
 		};
 
 	//Get the local A/V stream, this stream will be used to for the webrtc connection
@@ -232,7 +246,10 @@ console.log("(webrtcclientsdk.js) client Ref Design loading...");
         }
     };
 	
-
+	var onContentShareStateChange = function(isSharing) {
+		if(cbContentShareStateChange) cbContentShareStateChange(isSharing); 
+	};	
+	
     //Add code to handle error from BJN SDK
     var onRTCError = function(error) {
         console.log("Error has occured :: " + error);
@@ -240,6 +257,10 @@ console.log("(webrtcclientsdk.js) client Ref Design loading...");
 		if(cbOnError) cbOnError(error);
 		
     };
+	
+	var reportSdkVersion = function(){
+		return sdkVersion;
+	};
 	
 	return {
 	initialize : initialize,
@@ -250,7 +271,8 @@ console.log("(webrtcclientsdk.js) client Ref Design loading...");
 	changeVideoInput : changeVideoInput,
 	setVideoBandwidth: setVideoBandwidth,
 	joinMeeting : joinMeeting,
-	leaveMeeting : leaveMeeting
+	leaveMeeting : leaveMeeting,
+	version : reportSdkVersion
 	};
 
 });

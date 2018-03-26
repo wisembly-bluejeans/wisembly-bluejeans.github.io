@@ -1,16 +1,17 @@
 # WebRTC Client SDK
-## Release Notes:  ver 1.0.3
-### Oct 2017,  Glenn Inn,  Technical Lead API & Partnerships
+## Release Notes:  ver 1.1.0
+### Mar 2018,  Glenn Inn,  Technical Lead API & Partnerships
 
 ![BlueJeans](./media/927.png)
 
 
 
-Document Date: 2017-10-13
+Document Date: 2018-03-26
 
 | Version | Date       | Who  | Description                              |
 | ------- | ---------- | ---- | ---------------------------------------- |
-| 1.0.3   | 11/07/2017 | g1   | Update webrtcsdk.min.js to fix Chrome on Andoid |
+| 1.1.0   |  3/26/2018| g1   | Add ability to view Content Sharing |
+| 1.0.2   | 10/23/2017| g1   | add reference network requirements for | 1.0.3   | 11/07/2017 | g1   | Update webrtcsdk.min.js to fix Chrome on Andoid |
 | 1.0.2   | 10/23/2017 | g1   | Add link to Network Configuration for WebRTC |
 | 1.0.1   | 10/13/2017 | g1   | Upgrade webrtcclientsdk.js to be compatible |
 |         |            |      | with Firefox browsers                    |
@@ -24,6 +25,8 @@ Document Date: 2017-10-13
 
 
 ## In This Release
+
+The version 1.1.0 includes a feature enhancement to support the display of shared content from a BlueJeans meeting.  The SDK provides an ability to stream the content-share video to a `<video id="contentVideo">`tag, **and** an event callback that indicates state change of sharing.  Additionally, this release includes an API call to retrieve the WebRTC Client version.
 
 The 1.0.3 version fixes the defect that prevented WebRTC from running on Chrome / Android.
 
@@ -43,6 +46,7 @@ The 1.0.1 release contains all the WebRTC components to support both Chrome and 
    7. changeAudioInput()  - (May require information not currently exposed in this release)
    8. changeAudioOutput()  - (May require information not currently exposed in this release)
    9. changeVideoInput()  - (May require information not currently exposed in this release)
+   10. version() 
 3. As provided in this reference application, BlueJeans delivers a video feed sized for 1024 x 768.  If the HTML web page needs to change the dimensions (4:3) it should use the CSS `transform: scale (xscale,yscale);`  operation on the <video> element.
 
 
@@ -50,6 +54,7 @@ The 1.0.1 release contains all the WebRTC components to support both Chrome and 
 ### Known Limitations
 
 1. **Single Meeting Session** SDK is limited to support connection to one, and only one BlueJeans meeting per page refresh.  If the application needs to join a follow-on meeting, the web page and BlueJeans WebRTC Framework must be reloaded (refresh page).  This limitation will be addressed in a future release.
+
 
 
 

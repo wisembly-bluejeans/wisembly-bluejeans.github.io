@@ -4,12 +4,13 @@
 
 
 
-Document Version: 0.9.2
+Document Version: 1.1.0
 
-Document Date: 2017-05-17
+Document Date: 2018-03-26
 
 | Version | Date      | Who  | Description                                |
 | ------- | --------- | ---- | ------------------------------------------ |
+| 1.1.0   |  3/26/2018| g1   | Add ability to view Content Sharing |
 | 1.0.2   | 10/23/2017| g1   | add reference network requirements for WebRTC |
 | 1.0.1   | 10/13/2017| g1   | Update webrtcclientsdk.js file to support firefox |
 | 1.0.0   | 10/12/2017| g1   | Upgrade backend webrtc-sdk.js with Firefox |
@@ -172,6 +173,7 @@ initializationParameters : {
    evtRemoteConnectionStateChange : <function>, <callback or null>
    evtLocalConnectionStateChange  : <function>, <callback or null>
    evtOnError                     : <function>, <callback or null>
+   evtOnContentSHareStateChange	  : <function>, <callback or null>
 }
 ```
 
@@ -198,6 +200,39 @@ The bitrate parameter specified, in Kilobits Per Second, the maximum video data 
 **Returns:**
 
 None
+<br />
+<br />
+<br />
+<br />
+
+
+
+### ![](./media/api.png)**version()** – Retrieve the version of the WebRTC SDK
+
+### 
+
+The version() API returns the version number of the WebRTC SDK. 
+
+**Call By:**
+
+`RTCClient.version();`
+
+**Parameters:**
+
+None.
+
+**Returns:**
+
+The version API returns the following JSON structure 
+
+```javascript
+{
+    major : <an integer representing major revision level>,
+    minor : <an integer representing minor revision level>, 
+    build : <an integer representing incremental build of current revision(s)> 
+}
+```
+
 <br />
 <br />
 <br />
@@ -292,7 +327,7 @@ meetingParams is a JSON object that contains information related to the meeting 
 meetingParams : {
     meetingId : ‘string’, meeting id,
     passcode  : ‘string’, optional: include only if meeting requires passcode
-    userName  : ‘string’ *Text displayed in roster
+    userName  : ‘string’  Name of user as displayed in roster
 }
 ```
 
@@ -349,7 +384,7 @@ The API returns the expected new state for video media: *true* if video is muted
 <br />
 <br />
 
-### ![](./media/api.png) **toggleVideoMute()** – Change client’s Audio Mute state
+### ![](./media/api.png) **toggleAudioMute()** – Change client’s Audio Mute state
 
 The toggleAudioMute() API call instructs the WebRTC SDK to mute or unmute the client’s microphone feed to the BJN call. If the local microphone was active, toggleAudioMute () will turn off the local microphone’s audio, and vice versa.
 
@@ -376,10 +411,10 @@ Partner web app can listen to the RTCClient event handles and take appropriate a
 
 <u>List of events</u>
 
-| Event                                   | Description                              |
-| --------------------------------------- | ---------------------------------------- |
+| Event                                   | Description                                                  |
+| --------------------------------------- | ------------------------------------------------------------ |
 | `evtVideoUnmute()`                      | This event is triggered when the client’s local video is unmuted and the media stream is being reestablished. |
 | `evtRemoteConnectionStateChange(state)` | This event is triggered when the remote video connection changes state. The event callback returns the WebRTC-specific state condition. |
 | `evtLocalConnectionStateChange(state)`  | This event is triggered when the local video connection changes state. The event callback returns the WebRTC-specific state condition. |
 | `evtOnError(what)`                      | This event triggers when the BlueJeans RTCManager object encounters a low-level RTC error. The callback returns a BlueJeans’ descriptor indicating the problem-area. |
-
+| `evtContentShareStateChange(state)`     | This event triggers when the BlueJeans meeting in the cloud begins or ends sharing content to participants.  The state variable is a boolean where  **true** indicates content is being shared into the meeting. |
