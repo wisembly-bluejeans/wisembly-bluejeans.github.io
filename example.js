@@ -32,7 +32,13 @@ define([
 					bjnSIPTimeout : 3000,
 					bjnWebRTCReconnectTimeout : 90000});
 					
-		
+		if(RTCClient.version){
+			var v = RTCClient.version();
+			$("#sdkversion").text( v.major + "." + v.minor + "." + v.build );
+		} else {
+			$("#sdkversion").text("-- unknown --");
+		}
+					
 		// Get list of A/V on this PC
 		BJN.RTCManager.getLocalDevices().then(function(devices) {
 			BJN.localDevices = devices.available;
@@ -60,7 +66,7 @@ define([
 				   evtRemoteConnectionStateChange : <function handler>
 				   evtLocalConnectionStateChange : <function handler>
 				   evtOnError : <function handler>
-				   
+				   evtContentShareStateChange : <function handler> v1.1.0				   
 				}
 			*/
 			RTCClient.initialize({
@@ -71,12 +77,13 @@ define([
 				evtVideoUnmute : unmuteVideo,
 				evtRemoteConnectionStateChange : null,
 				evtLocalConnectionStateChange : null,
-				evtOnError : null
+				evtOnError : null,
+				evtContentShareStateChange : cbContentShareStateChange
 			});
 			
 			// Save for external access
 			BJN.RTCClient = RTCClient;	
-			
+						
 		}, function(error) {
 			console.log("Local device error " + error);
 			reject(error);
@@ -90,6 +97,16 @@ define([
 	function setMuteButton(muted){
 		var updatedText = muted ? "Show Video" : "Mute Video";
 		$("#toggleVideoMute").html(updatedText);	
+	};
+	
+	function cbContentShareStateChange(isShare){
+		if(isShare){
+			$("#contentVideo").show();
+			$("#noContent").hide();
+		} else {
+			$("#contentVideo").hide();
+			$("#noContent").show();
+		}
 	};
 
 
