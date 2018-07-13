@@ -7,9 +7,10 @@ define([
     // Sample App src files
     "scripts/defaultRTCParams",
     "scripts/bjn-global",
-    "scripts/webrtcclientsdk"
+    "scripts/webrtcclientsdk",
+	"scripts/webrtcroster"
 
-], function($, _, RTCManager, defaultRTCParams, BJN, RTCClient ) {
+], function($, _, RTCManager, defaultRTCParams, BJN, RTCClient, RTCRoster ) {
 
     console.log("(example.js): BJN WebRTC Example");
 	
@@ -20,6 +21,7 @@ define([
 	$("#toggleVideoMute, #toggleAudioMute").click(function(){
 		$(this).toggleClass("muted");
 	});
+
 	
 	initializeBJN = function() {
 		console.log("(example.js) InitializeBJN()");
@@ -38,7 +40,17 @@ define([
 		} else {
 			$("#sdkversion").text("-- unknown --");
 		}
-					
+
+		// setup for roster
+		RTCRoster.initialize();
+		BJN.RTCRoster = RTCRoster;
+		BJN.RTCRoster.onJoin(true,cbPartyJoined);
+		BJN.RTCRoster.onLeave(true,cbPartyLeft);
+		BJN.RTCRoster.onChange(true,"isSendingVideo",cbPartyToggledVideo);
+		BJN.RTCRoster.onChange(true,"isSendingAudio",cbPartyToggledAudio);
+		RemoteVideoOrMask();
+		
+
 		// Get list of A/V on this PC
 		BJN.RTCManager.getLocalDevices().then(function(devices) {
 			BJN.localDevices = devices.available;
@@ -60,6 +72,7 @@ define([
 			   options : {
 				   localVideoEl  : <DOM element for local video>,
 				   remoteVideoEl : <DOM element for remote video>
+				   contentVideoEl: <DOM element for content share video>
 				   bandWidth     : <100..4096Kbps netwk b/w>
 				   devices       : { object - full list of Audio/Video devices
 				   evtVideoUnmute  : <function handler>
@@ -72,6 +85,7 @@ define([
 			RTCClient.initialize({
 				localVideoEl: $("#localVideo")[0],
 				remoteVideoEl : $("#remoteVideo")[0],
+				contentVideoEl : $("#contentVideo")[0],
 				bandWidth : $("#videoBw").prop('value'),
 				devices   : BJN.localDevices,
 				evtVideoUnmute : unmuteVideo,
@@ -83,7 +97,7 @@ define([
 			
 			// Save for external access
 			BJN.RTCClient = RTCClient;	
-						
+
 		}, function(error) {
 			console.log("Local device error " + error);
 			reject(error);
@@ -107,7 +121,78 @@ define([
 			$("#contentVideo").hide();
 			$("#noContent").show();
 		}
-	};
+	}
+	
+	//------------------
+	// BlueJeans Roster Related UI Functions
+	//
+	// vvv vvv vvv
+	
+	function PartyVideoMuted(p) {
+		return (p.attributes.isSendingVideo ? 
+				  "<img src='media/vcam.png'/>" :
+		            " ");
+	}
+
+
+	function PartyAudioMuted(p) {
+		return (p.attributes.isSendingAudio ? 
+				  "<img src='media/mic.png'/>" :
+		            " ");
+	}
+
+	function RemoteVideoOrMask(){
+		var n = BJN.RTCRoster.getPartyCount();
+		switch(n) {
+			case 0: // no one in mtg
+			  $("#remoteVideo").hide();
+			  $("#waitimg").hide();
+			  $("#waittext").hide();
+			  $("#wait4agent").show();
+			break;
+			case 1: // just me
+			  $("#remoteVideo").hide();
+			  $("#wait4agent").show();
+			  $("#waitimg").css('display','block').show();
+			  $("#waittext").show();
+			break;
+			default: // everyone
+			  $("#remoteVideo").show();
+			  $("#waitimg").hide();
+			  $("#waittext").hide();
+			  $("#wait4agent").hide();
+			break;
+		} 
+	}	
+	
+	function cbPartyJoined(p){
+		var r = '<tr id="' + p.cid + '">';
+		r += "<td class='rostern'>" + 
+		  p.attributes.name + "</td>";
+		r += "<td class='rosterv'>" + 
+		    PartyVideoMuted(p)  +
+		    "</td>";
+		r += "<td class='rostera'>" + 
+		    PartyAudioMuted(p)  +
+		    "</td>";
+		r += "</tr>";
+			
+		$("#parties tr:last").after(r);
+		RemoteVideoOrMask();
+	}
+	
+	function cbPartyLeft(p){
+		$('table#parties tr#'+p.cid).remove();
+		RemoteVideoOrMask();
+	}
+	
+	function cbPartyToggledVideo(p){
+		$('table#parties tr#'+p.cid+' td.rosterv').html( PartyVideoMuted(p) );
+	}
+	
+	function cbPartyToggledAudio(p){
+		$('table#parties tr#'+p.cid+' td.rostera').html( PartyAudioMuted(p) );
+	}
 
 
 	maptoUI = function() {
@@ -165,6 +250,7 @@ define([
 
 		$("#leaveMeeting").click(function() {
 			RTCClient.leaveMeeting();
+			RTCRoster.close();
 		});
 	}
 	

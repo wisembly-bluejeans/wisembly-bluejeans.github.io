@@ -18,7 +18,7 @@ console.log("(webrtcclientsdk.js) client Ref Design loading...");
 	
 	const sdkVersion = {
 		major : 1,
-		minor : 1,
+		minor : 2,
 		build : 0	
 	};
 
@@ -42,6 +42,7 @@ console.log("(webrtcclientsdk.js) client Ref Design loading...");
 
 	var localVideoEl = null;
 	var remoteVideoEl = null;
+	var contentVideoEl = null;
 	var MediaStarted = false;  // new for ffox
 	
 	// client callbacks
@@ -55,6 +56,7 @@ console.log("(webrtcclientsdk.js) client Ref Design loading...");
 	   options : {
 		   localVideoEl  : <dom element for local video>,
 		   remoteVideoEl : <dom element for remote video>,
+		   contentVideoEl: <dom element for content share video>
 		   bandWidth     : <100..4096Kbps netwk b/w>,
 		   devices       : { A/V devices },
 		   evtVideoUnmute  : callback(),
@@ -67,6 +69,7 @@ console.log("(webrtcclientsdk.js) client Ref Design loading...");
 		console.log("bjnrtcsdk initializing");
         localVideoEl = options.localVideoEl;
         remoteVideoEl = options.remoteVideoEl;
+		contentVideoEl = options.contentVideoEl;
 
 		cbVideoMute = options.evtVideoUnmute;
 		cbRemoteConnectionStateChange = options.evtRemoteConnectionStateChange;
@@ -89,7 +92,7 @@ console.log("(webrtcclientsdk.js) client Ref Design loading...");
         BJN.RTCManager.localEndPointStateChange     = onLocalConnectionStateChange;
         BJN.RTCManager.remoteStreamChange           = onRemoteStreamUpdated;
         BJN.RTCManager.error                        = onRTCError;
-		BJN.RTCManager.contentStreamChange			= onContentShareStateChange;
+		BJN.RTCManager.contentStreamChange			= onContentStreamUpdated;
 		};
 
 	//Get the local A/V stream, this stream will be used to for the webrtc connection
@@ -246,9 +249,18 @@ console.log("(webrtcclientsdk.js) client Ref Design loading...");
         }
     };
 	
-	var onContentShareStateChange = function(isSharing) {
-		if(cbContentShareStateChange) cbContentShareStateChange(isSharing); 
-	};	
+	var onContentStreamUpdated = function(stream){
+        BJN.contentStream = stream;
+		if (stream) {
+			console.log('Content stream updated');
+			BJN.RTCManager.renderStream({
+					stream: stream,
+					el: contentVideoEl
+			});
+		} 
+		if(cbContentShareStateChange) 
+			cbContentShareStateChange(stream != null); 
+	};
 	
     //Add code to handle error from BJN SDK
     var onRTCError = function(error) {
