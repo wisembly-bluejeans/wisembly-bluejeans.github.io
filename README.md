@@ -4,9 +4,9 @@
 
 
 
-Document Version: 1.1.0
+Document Version: 1.2.0
 
-Document Date: 2018-03-26
+Document Date: 2018-07-13
 
 | Version | Date       | Who  | Description                                                  |
 | ------- | ---------- | ---- | ------------------------------------------------------------ |
