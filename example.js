@@ -10,10 +10,11 @@ define([
     "scripts/webrtcclientsdk",
 	"scripts/webrtcroster"
 
-], function($, _, RTCManager, defaultRTCParams, BJN, RTCClient, RTCRoster ) {
+], function($, _, RTCManager, defaultRTCParams, BJN, RTCClient, RTCRoster) {
 
-    console.log("(example.js): BJN WebRTC Example");
-	
+	console.log("Yo");
+  console.log("(example.js): BJN WebRTC Example");
+
 	$("#joinMeeting, #leaveMeeting").click(function(){
 		$(this).addClass("hidden");
 		$(this).siblings().removeClass("hidden");
@@ -22,18 +23,18 @@ define([
 		$(this).toggleClass("muted");
 	});
 
-	
+
 	initializeBJN = function() {
 		console.log("(example.js) InitializeBJN()");
 
-		// Initiate BJN SDK, refer defaultRTCParams.js 
+		// Initiate BJN SDK, refer defaultRTCParams.js
 		// Add timeout values
 		BJN.RTCManager = new RTCManager({
 					webrtcParams: defaultRTCParams,
 					bjnCloudTimeout : 5000,
 					bjnSIPTimeout : 3000,
 					bjnWebRTCReconnectTimeout : 90000});
-					
+
 		if(RTCClient.version){
 			var v = RTCClient.version();
 			$("#sdkversion").text( v.major + "." + v.minor + "." + v.build );
@@ -49,70 +50,72 @@ define([
 		BJN.RTCRoster.onChange(true,"isSendingVideo",cbPartyToggledVideo);
 		BJN.RTCRoster.onChange(true,"isSendingAudio",cbPartyToggledAudio);
 		RemoteVideoOrMask();
-		
+
 
 		// Get list of A/V on this PC
-		BJN.RTCManager.getLocalDevices().then(function(devices) {
-			BJN.localDevices = devices.available;
-			var avail = devices.available
-			console.log("Got local devices, available:" + JSON.stringify(avail).substr(0,35)+"...");
-			
-			// Add audio in devices to the selection list
-			avail.audioIn.forEach( function(device) {
-				console.log("audioIn device: " + device.label);
-				$('#audioIn').append('<option>' + device.label +'</option>');
-			});
-			avail.audioOut.forEach(function(device) {
-				$('#audioOut').append('<option>' + device.label +'</option>');
-			});
-			avail.videoIn.forEach(function(device) {
-				$('#videoIn').append('<option>' + device.label +'</option>');
-			});
-			/*
-			   options : {
-				   localVideoEl  : <DOM element for local video>,
-				   remoteVideoEl : <DOM element for remote video>
-				   contentVideoEl: <DOM element for content share video>
-				   bandWidth     : <100..4096Kbps netwk b/w>
-				   devices       : { object - full list of Audio/Video devices
-				   evtVideoUnmute  : <function handler>
-				   evtRemoteConnectionStateChange : <function handler>
-				   evtLocalConnectionStateChange : <function handler>
-				   evtOnError : <function handler>
-				   evtContentShareStateChange : <function handler> v1.1.0				   
-				}
-			*/
-			RTCClient.initialize({
-				localVideoEl: $("#localVideo")[0],
-				remoteVideoEl : $("#remoteVideo")[0],
-				contentVideoEl : $("#contentVideo")[0],
-				bandWidth : $("#videoBw").prop('value'),
-				devices   : BJN.localDevices,
-				evtVideoUnmute : unmuteVideo,
-				evtRemoteConnectionStateChange : null,
-				evtLocalConnectionStateChange : null,
-				evtOnError : null,
-				evtContentShareStateChange : cbContentShareStateChange
-			});
-			
-			// Save for external access
-			BJN.RTCClient = RTCClient;	
 
-		}, function(error) {
-			console.log("Local device error " + error);
-			reject(error);
+		// BJN.RTCManager.getLocalDevices().then(function(devices) {
+		// 	BJN.localDevices = devices.available;
+		// 	var avail = devices.available
+		// 	console.log("Got local devices, available:" + JSON.stringify(avail).substr(0,35)+"...");
+
+		// 	// Add audio in devices to the selection list
+		// 	// avail.audioIn.forEach( function(device) {
+		// 	// 	console.log("audioIn device: " + device.label);
+		// 	// 	$('#audioIn').append('<option>' + device.label +'</option>');
+		// 	// });
+		// 	// avail.audioOut.forEach(function(device) {
+		// 	// 	$('#audioOut').append('<option>' + device.label +'</option>');
+		// 	// });
+		// 	// avail.videoIn.forEach(function(device) {
+		// 	// 	$('#videoIn').append('<option>' + device.label +'</option>');
+		// 	// });
+
+		// 	console.log('devices', devices)
+
+		// 	RTCClient.initialize({
+		// 		remoteVideoEl : $("#remoteVideo")[0],
+		// 		bandWidth : $("#videoBw").prop('value'),
+		// 		devices   : { audioIn: null, videoIn: null },
+		// 		evtVideoUnmute : unmuteVideo,
+		// 		evtRemoteConnectionStateChange : null,
+		// 		evtLocalConnectionStateChange : null,
+		// 		evtOnError : null,
+		// 		evtContentShareStateChange : cbContentShareStateChange
+		// 	});
+
+		// 	// Save for external access
+		// 	BJN.RTCClient = RTCClient;
+
+		// }, function(error) {
+		// 	console.log("Local device error " + error);
+		// 	reject(error);
+		// });
+
+		RTCClient.initialize({
+			remoteVideoEl : $("#remoteVideo")[0],
+			bandWidth : 1024,
+			devices   : { audioIn: null, videoIn: null },
+			evtVideoUnmute : unmuteVideo,
+			evtRemoteConnectionStateChange : null,
+			evtLocalConnectionStateChange : null,
+			evtOnError : null,
+			evtContentShareStateChange : cbContentShareStateChange
 		});
+
+		// Save for external access
+		BJN.RTCClient = RTCClient;
 	}
-	
+
 	function unmuteVideo() {
 		setMuteButton(false);
 	};
 
 	function setMuteButton(muted){
 		var updatedText = muted ? "Show Video" : "Mute Video";
-		$("#toggleVideoMute").html(updatedText);	
+		$("#toggleVideoMute").html(updatedText);
 	};
-	
+
 	function cbContentShareStateChange(isShare){
 		if(isShare){
 			$("#contentVideo").show();
@@ -122,21 +125,21 @@ define([
 			$("#noContent").show();
 		}
 	}
-	
+
 	//------------------
 	// BlueJeans Roster Related UI Functions
 	//
 	// vvv vvv vvv
-	
+
 	function PartyVideoMuted(p) {
-		return (p.attributes.isSendingVideo ? 
+		return (p.attributes.isSendingVideo ?
 				  "<img src='media/vcam.png'/>" :
 		            " ");
 	}
 
 
 	function PartyAudioMuted(p) {
-		return (p.attributes.isSendingAudio ? 
+		return (p.attributes.isSendingAudio ?
 				  "<img src='media/mic.png'/>" :
 		            " ");
 	}
@@ -162,34 +165,34 @@ define([
 			  $("#waittext").hide();
 			  $("#wait4agent").hide();
 			break;
-		} 
-	}	
-	
+		}
+	}
+
 	function cbPartyJoined(p){
 		var r = '<tr id="' + p.cid + '">';
-		r += "<td class='rostern'>" + 
+		r += "<td class='rostern'>" +
 		  p.attributes.name + "</td>";
-		r += "<td class='rosterv'>" + 
+		r += "<td class='rosterv'>" +
 		    PartyVideoMuted(p)  +
 		    "</td>";
-		r += "<td class='rostera'>" + 
+		r += "<td class='rostera'>" +
 		    PartyAudioMuted(p)  +
 		    "</td>";
 		r += "</tr>";
-			
+
 		$("#parties tr:last").after(r);
 		RemoteVideoOrMask();
 	}
-	
+
 	function cbPartyLeft(p){
 		$('table#parties tr#'+p.cid).remove();
 		RemoteVideoOrMask();
 	}
-	
+
 	function cbPartyToggledVideo(p){
 		$('table#parties tr#'+p.cid+' td.rosterv').html( PartyVideoMuted(p) );
 	}
-	
+
 	function cbPartyToggledAudio(p){
 		$('table#parties tr#'+p.cid+' td.rostera').html( PartyAudioMuted(p) );
 	}
@@ -228,7 +231,7 @@ define([
 			var muted = RTCClient.toggleAudioMute();
 			var updatedText = muted ? "Unmute Audio" : "Mute Audio";
 			$("#toggleAudioMute").html(updatedText);
-			console.log(muted ? "Audio is Muted now" : "Audio is Unmuted now");	
+			console.log(muted ? "Audio is Muted now" : "Audio is Unmuted now");
 		});
 
 		$("#toggleVideoMute").click(function() {
@@ -253,9 +256,28 @@ define([
 			RTCRoster.close();
 		});
 	}
-	
+
 	console.log("Startng Initialization of BJN");
 	initializeBJN();
-	maptoUI();
+	// maptoUI();
 
+	var queryArgs = new URI(window.location).search(true);
+	console.log(queryArgs);
+
+	if (queryArgs.meeting_id) {
+		RTCClient.joinMeeting({
+			numericMeetingId: queryArgs.meeting_id,
+			displayName: 'user#7856'
+		});
+
+		// mute video
+		if (!RTCClient.toggleVideoMute()) {
+			RTCClient.toggleVideoMute();
+		}
+
+		// mute audio
+		if (!RTCClient.toggleAudioMute()) {
+			RTCClient.toggleAudioMute();
+		}
+	}
 });

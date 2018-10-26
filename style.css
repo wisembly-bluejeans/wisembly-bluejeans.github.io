@@ -21,12 +21,12 @@
 body {
 	font-family: ProximaNova_Light, Helvetica, Arial, sans-serif;
 	font-size: 16px;
-    line-height: 1.5;
-    color: #292929;
-    background: #F4F9FF;
+  line-height: 1.5;
+  color: #292929;
+  background: #000;
 }
 .container {
-	width: 90%;
+	width: 100%;
 	margin: 0 auto;
 }
 section {
@@ -37,13 +37,13 @@ a {
 	color: #292929;
 }
 td .strong {
-	font-family: ProximaNova_Bold, Helvetica, Arial, sans-serif; 
+	font-family: ProximaNova_Bold, Helvetica, Arial, sans-serif;
 }
 header {
 	padding: 40px 0 30px 0;
-    background: #1478C7;         
-    background: -webkit-linear-gradient(90deg, #006FD2, #1AD1E0);    
-    background: -o-linear-gradient(90deg, #006FD2, #1AD1E0);    
+    background: #1478C7;
+    background: -webkit-linear-gradient(90deg, #006FD2, #1AD1E0);
+    background: -o-linear-gradient(90deg, #006FD2, #1AD1E0);
     background: -moz-linear-gradient(90deg, #006FD2, #1AD1E0);
     background: linear-gradient(90deg, #006FD2, #1AD1E0);
 }
@@ -106,8 +106,14 @@ h1.page-headline {
 }
 
 div#media {
-	overflow: hidden;
+	height: 100vh;
+	width: 100vw;
+	display: flex;
+	flex: auto;
+	align-content: center;
+	justify-content: center;
 }
+
 video {
 	margin: auto;
 	display: block;
@@ -118,12 +124,13 @@ video {
 	z-index: -1;
 }
 .videodiv {
-	float: left;	
+	float: left;
 	width: 50%;
 }
 
 .remotevid {
-	width: 50%;
+	display: flex;
+	width: 100%;
 }
 .localvid {
 	width: 30%;
@@ -136,7 +143,7 @@ video {
 	display: block;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;	
+    text-overflow: ellipsis;
 }
 .rosterv {
 	width: 15%;
@@ -212,7 +219,7 @@ video {
 
 #wait4agent {
 	float: left;
-	width: 90%;
+	width: 100%;
 	padding-top: 12%;
 	padding-bottom: 12%;
 	position: relative;
@@ -317,7 +324,7 @@ input {
     line-height: 24px;
     margin: 0 auto;
     width: 100%;
-	border-bottom: 1px solid #DDE4EE; 
+	border-bottom: 1px solid #DDE4EE;
     -webkit-transition: all linear 0.2s;
     -moz-transition: all linear 0.2s;
     -o-transition: all linear 0.2s;
@@ -380,7 +387,7 @@ button:focus {
 	background-color: #EF476F;
 	color: white;
 }
-#leaveMeeting:hover{	
+#leaveMeeting:hover{
 }
 button.hidden {
 	display: none;
@@ -417,7 +424,7 @@ button.hidden {
 		width: 100%;
 	}
 	#toggleVideoMute, #joinMeeting {
-		margin-bottom: 20px;	
+		margin-bottom: 20px;
 	}
 	.userMedia fieldset {
 		padding: 20px;

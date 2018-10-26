@@ -395,7 +395,7 @@ require.config({
    * @returns {String} Returns the interpolated text.
    */
   var iteratorTemplate = function(obj) {
-    
+
     var __p = 'var index, iterable = ' +
     (obj.firstArg ) +
     ', result = iterable;\nif (!iterable) return result;\n' +
@@ -408,7 +408,7 @@ require.config({
     (obj.loop ) +
     '\n  }\n}\nelse {  ';
      } ;
-    
+
      if (obj.isKeysFast && obj.useHas) {
     __p += '\n  var ownIndex = -1,\n      ownProps = objectTypes[typeof iterable] ? nativeKeys(iterable) : [],\n      length = ownProps.length;\n\n  while (++ownIndex < length) {\n    index = ownProps[ownIndex];\n    ' +
     (obj.loop ) +
@@ -422,7 +422,7 @@ require.config({
      }    ;
     __p += ') {    ';
      } ;
-    __p += 
+    __p +=
     (obj.loop ) +
     ';    ';
      if (obj.useHas) {
@@ -430,15 +430,15 @@ require.config({
      } ;
     __p += '\n  }  ';
      } ;
-    
+
      if (obj.arrays) {
     __p += '\n}';
      } ;
-    __p += 
+    __p +=
     (obj.bottom ) +
     ';\nreturn result';
-    
-    
+
+
     return __p
   };
 
@@ -15290,7 +15290,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
         }
         if (sort || (order && order.length)) this.trigger('sort', this, options);
       }
-      
+
       // Return the added (or merged) model (or models).
       return singular ? models[0] : models;
     },
@@ -21408,7 +21408,7 @@ JSONPPolling.prototype.doPoll = function () {
   this.script = script;
 
   var isUAgecko = 'undefined' != typeof navigator && /gecko/i.test(navigator.userAgent);
-  
+
   if (isUAgecko) {
     setTimeout(function () {
       var iframe = document.createElement('iframe');
@@ -26321,7 +26321,7 @@ define('WebRTC_SDK/models/RTCTransactionModel',['require','underscore','backbone
         updateRequest: function(messageId, requestParams) {
             this.get('bluejayReqMap')[messageId] = requestParams;
         },
-         
+
         removeRequest: function(messageId) {
             if (this.get('bluejayReqMap')[messageId])
             {
@@ -26479,7 +26479,7 @@ define('WebRTC_SDK/models/RTCTransactionModel',['require','underscore','backbone
                     stateMachinePrivateState.activatedTriggers = [];
                 }
             };
-           
+
             stateMachine.getState = function () {
                 return stateMachinePrivateState.state;
             };
@@ -27701,7 +27701,7 @@ module.exports = function(stream, options) {
   harker.setInterval = function(i) {
     interval = i;
   };
-  
+
   harker.stop = function() {
     running = false;
     harker.emit('volume_change', -100, threshold);
@@ -27719,12 +27719,12 @@ module.exports = function(stream, options) {
   // and emit events if changed
   var looper = function() {
     setTimeout(function() {
-    
+
       //check if stop has been called
       if(!running) {
         return;
       }
-      
+
       var currentVolume = getMaxVolume(analyser, fftBins);
 
       harker.emit('volume_change', currentVolume, threshold);
@@ -27762,7 +27762,7 @@ module.exports = function(stream, options) {
 
 },{"wildemitter":2}],2:[function(require,module,exports){
 /*
-WildEmitter.js is a slim little event emitter by @henrikjoreteg largely based 
+WildEmitter.js is a slim little event emitter by @henrikjoreteg largely based
 on @visionmedia's Emitter from UI Kit.
 
 Why? I wanted it standalone.
@@ -27770,14 +27770,14 @@ Why? I wanted it standalone.
 I also wanted support for wildcard emitters like this:
 
 emitter.on('*', function (eventName, other, event, payloads) {
-    
+
 });
 
 emitter.on('somenamespace*', function (eventName, payloads) {
-    
+
 });
 
-Please note that callbacks triggered by wildcard registered events also get 
+Please note that callbacks triggered by wildcard registered events also get
 the event name as the first argument.
 */
 module.exports = WildEmitter;
@@ -28253,7 +28253,7 @@ module.exports = function (constraints, cb) {
 });
 ;
 define('wildemitter',['require','exports','module'],function (require, exports, module) {/*
-WildEmitter.js is a slim little event emitter by @henrikjoreteg largely based 
+WildEmitter.js is a slim little event emitter by @henrikjoreteg largely based
 on @visionmedia's Emitter from UI Kit.
 
 Why? I wanted it standalone.
@@ -28261,14 +28261,14 @@ Why? I wanted it standalone.
 I also wanted support for wildcard emitters like this:
 
 emitter.on('*', function (eventName, other, event, payloads) {
-    
+
 });
 
 emitter.on('somenamespace*', function (eventName, payloads) {
-    
+
 });
 
-Please note that callbacks triggered by wildcard registered events also get 
+Please note that callbacks triggered by wildcard registered events also get
 the event name as the first argument.
 */
 module.exports = WildEmitter;
@@ -28934,7 +28934,7 @@ define('WebRTC_SDK/manager/RTCLocalMediaManager',['require','my.Class','undersco
                         {googDucking:false}
                     ]
                 },
-				video: { 
+				video: {
                     width  : { min : 1280, max : 1280 },
 					height : { min : 720, max : 720 }
                 }
@@ -29043,7 +29043,7 @@ define('WebRTC_SDK/manager/RTCLocalMediaManager',['require','my.Class','undersco
                     this.stopLocalStreamClone();
                 }
 
-                if(BrowserDetector.browser === 'firefox' && 
+                if(BrowserDetector.browser === 'firefox' &&
                     (constraints.audio === false && constraints.video === false))
                 {
                     //FF fails the call if both A/V device are not present. To avoid it create
@@ -29084,7 +29084,7 @@ define('WebRTC_SDK/manager/RTCLocalMediaManager',['require','my.Class','undersco
             if(params.type === 'local_stream') {
 				 this.createLocalStreams(localStream).then(function(localStreamList){
                     deferred.resolve(localStreamList);
-                });   
+                });
                 return deferred.promise;
             } else {
                 this.stopPreviewStream();
@@ -29095,7 +29095,7 @@ define('WebRTC_SDK/manager/RTCLocalMediaManager',['require','my.Class','undersco
                 };
                 streamList.push(previewStream);
 
-                if(params.micChanged || (!localVideoMuted && params.cameraChanged) 
+                if(params.micChanged || (!localVideoMuted && params.cameraChanged)
                     || (params.cameraChanged && BrowserDetector.browser === 'firefox')) {
 
                     this.stopLocalStreams();
@@ -29117,7 +29117,7 @@ define('WebRTC_SDK/manager/RTCLocalMediaManager',['require','my.Class','undersco
         },
 
         createLocalStreams: function(localStream) {
-            var deferred = Q.defer();   
+            var deferred = Q.defer();
             var localStreamClone    = null;
             var streamList          = [];
             var self = this;
@@ -29237,7 +29237,7 @@ define('WebRTC_SDK/manager/RTCLocalMediaManager',['require','my.Class','undersco
                 }, function(error){
                     Logger.debug("RTCLocalMediaManager :: Error creating audio fake stream");
                     deferred.reject(error);
-                }); 
+                });
             } else {
                 deferred.resolve(null);
             }
@@ -33162,7 +33162,7 @@ define('WebRTC_SDK/models/RTCPeerModel',['require','backbone','WebRTC_SDK/utilit
       var mLineIndex = findLine(sdpLines, 'm=', 'video 0');
       if (mLineIndex === null) {
           return sdpLines.join('\r\n');
-      }   
+      }
       sdpLines[mLineIndex] = replacePayloadTypeFromMline(sdpLines[mLineIndex],portNumber);
       return sdpLines.join('\r\n');
   }
@@ -33181,11 +33181,11 @@ define('WebRTC_SDK/models/RTCPeerModel',['require','backbone','WebRTC_SDK/utilit
     var mLineIndex = findLine(sdpLines, 'm=video');
     if (mLineIndex === null) {
       return sdp;
-    }   
+    }
 
     if (sdpLines[mLineIndex].search(codec) == -1) {
       return sdp;
-    }   
+    }
 
     //Remove codec from m=video line
     sdpLines[mLineIndex] = sdpLines[mLineIndex].replace(' '+codec, '');
@@ -33199,7 +33199,7 @@ define('WebRTC_SDK/models/RTCPeerModel',['require','backbone','WebRTC_SDK/utilit
     var fmtpLine = findLine(sdpLines, 'a=fmtp:' + codec);
     if (fmtpLine) {
       sdpLines.splice(fmtpLine,1);
-    }   
+    }
 
     sdp = sdpLines.join('\r\n');
     return sdp;
@@ -34578,12 +34578,12 @@ Interop.prototype.toUnifiedPlan = function(desc) {
         token: '*'
     };
 
-    /*  PRERAK 
+    /*  PRERAK
         Start */
     var index = 0;
     mids = [];
     session.media.forEach(function(unifiedLine) {
-        
+
         if(index == 0){
             unifiedLine.mid = 'sdparta_0';
         }
@@ -34596,7 +34596,7 @@ Interop.prototype.toUnifiedPlan = function(desc) {
         mids.push(unifiedLine.mid);
         index++;
     });
-    
+
     // We regenerate the BUNDLE group (since we regenerated the mids)
     session.groups.some(function(group) {
         if (group.type === 'BUNDLE') {
@@ -34678,7 +34678,7 @@ define('WebRTC_SDK/RTCPeer',['require','q','my.Class','underscore','backbone','L
 
             var peerConfig = RTCUtils.deepMergeObjects(PeerModel.getDefaults(), options.peerConfig);
             this.model = new PeerModel(peerConfig);
-            
+
             //FF specific changes
             this.isConnectionLost = false;
             this.oldPktCount = 0;
@@ -34962,7 +34962,7 @@ define('WebRTC_SDK/RTCPeer',['require','q','my.Class','underscore','backbone','L
             var is = function is(stat, type) {
                 return stat.type == type && !stat.isRemote;
             };
-            
+
             if(this.isRemoteMute || this.model.get('iceConnectionState') !== 'connected')
             {
                 //Do not check for inbound rtp packets
@@ -34975,7 +34975,7 @@ define('WebRTC_SDK/RTCPeer',['require','q','my.Class','underscore','backbone','L
                     newPktCount = newPktCount + stats[key].packetsReceived;
                 }
             });
-            
+
             var isPktRecv = newPktCount - this.oldPktCount ? true : false;
             if(isPktRecv) {
                 //reset the pkt recv counter
@@ -35182,7 +35182,7 @@ define('WebRTC_SDK/RTCPeer',['require','q','my.Class','underscore','backbone','L
 
         handleIceCandidate: function(message) {
             var deferred = Q.defer();
-            
+
             if (this.isFirefox) {
                 if (message.sdpMid === 'audio')
                     message.sdpMid = 'sdparta_0';
@@ -35697,7 +35697,7 @@ define('WebRTC_SDK/manager/RTCScreenSharingManager',['require','underscore','jqu
             Logger.error("Failed to get desktop media stream, error: ", error);
             var shouldTrigger = false;
             // If the token status is already 'cancelled', manually trigger an event
-            // so that RTCController gets a cue to fire an event which hides the 
+            // so that RTCController gets a cue to fire an event which hides the
             // UI overlay and cleans up any flags/tokens.
             if(this.model.get('tokenStatus') === RTCBlueJay.TOKEN_STATUS.CANCELLED) {
                 shouldTrigger = true;
@@ -35908,7 +35908,7 @@ define('WebRTC_SDK/manager/RTCPeerConnectionManager',['require','q','my.Class','
 
         sendIceCandidate: function(iceCandidate) {
             if (iceCandidate) {
-                
+
                 if (BrowserDetector.browser === 'firefox') {
                     if (iceCandidate.sdpMid === 'sdparta_0')
                          iceCandidate.sdpMid = 'audio';
@@ -36122,7 +36122,7 @@ define('WebRTC_SDK/manager/RTCPeerConnectionManager',['require','q','my.Class','
             } else {
                 self.offerInProgress = true;
                 peer.createOffer(params).then(function(offerSdp) {
-                    
+
                 offerSdp.sdp = SDPUtils.maybeSetVideoReceiveBitRate(offerSdp.sdp, self.config.sdpParams);
                 offerSdp.sdp = SDPUtils.maybeSetTrickleIceAttr(offerSdp.sdp);
                 deferred.resolve(offerSdp);
@@ -36702,7 +36702,7 @@ define('WebRTC_SDK/RTCController',['require','q','my.Class','underscore','backbo
             RTCScreenSharingManager.setParams({
                 extensionId: this.config.extensionId,
                 features: this.config.features
-            });    
+            });
 
             RTCScreenSharingManager.model.on('change:presentationToken', this.onReceivePresentationToken);
             RTCScreenSharingManager.model.on('change:localContentStream', this.onLocalContentStreamChanged);
@@ -36956,7 +36956,7 @@ define('WebRTC_SDK/RTCController',['require','q','my.Class','underscore','backbo
             var connectMsgAckd = RTCTransactionManager.model.get('connectResponseReceived');
             var localAudioToggled = _.isBoolean(params.localAudio) && (params.localAudio !== this.model.get('localAudioMuted'));
             var localVideoToggled = _.isBoolean(params.localVideo) && (params.localVideo !== this.model.get('localVideoMuted'));
- 
+
             //Set the remote mute state in RTCPeer
             if(this.peerConnectionManager && this.peerConnectionManager.peer) {
                 if(!_.isUndefined(params.remoteAudio) && !_.isUndefined(params.remoteVideo))
@@ -37222,15 +37222,15 @@ define('config',[],function () {
         environment: {
             hostname: "https://bluejeans.com",
             cert: {
-                key: "", 
+                key: "",
                 certificate: ""
-            }   
-        },    
+            }
+        },
         user: {
             name: "BJNClient",
-        },  
+        },
         events: ["meeting", "endpoint", "chat"]
-    };  
+    };
 })
 
 ;
@@ -37824,7 +37824,7 @@ define('clientSDK/src/Roster',['require','underscore','my.Class','./models/Parti
 			// Modified
 			var participants = this.collection;
 
-			// scan through all the people to update, 
+			// scan through all the people to update,
 			//   and for each person, scan through all elements in update
 			//  	and copy each updated field into existing participant
 			var toChanges = _(peopleToUpdate).map(function(updatedField) {
@@ -37832,14 +37832,14 @@ define('clientSDK/src/Roster',['require','underscore','my.Class','./models/Parti
 					participants.getExistingForRaw(updatedField));
 
 				}).value();
-				
+
 			// scan through the change list, and set each affected participant
 			_.each(toChanges, function(changedParticipant){
 				var toModify = participants.get(changedParticipant.id);
 				if (toModify) {
 					toModify.set(changedParticipant);
 				}
-			});			
+			});
         },
 
         processDeleted: function(rawParticipantData, options, useId) {
@@ -37929,19 +37929,19 @@ define('clientSDK/src/Roster',['require','underscore','my.Class','./models/Parti
 
 /* @preserve
  * The MIT License (MIT)
- * 
+ *
  * Copyright (c) 2013-2017 Petka Antonov
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
@@ -37949,7 +37949,7 @@ define('clientSDK/src/Roster',['require','underscore','my.Class','./models/Parti
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- * 
+ *
  */
 /**
  * bluebird build version 3.5.1
@@ -41444,28 +41444,28 @@ _dereq_('./some.js')(Promise, PromiseArray, apiRejection);
 _dereq_('./filter.js')(Promise, INTERNAL);
 _dereq_('./each.js')(Promise, INTERNAL);
 _dereq_('./any.js')(Promise);
-                                                         
-    util.toFastProperties(Promise);                                          
-    util.toFastProperties(Promise.prototype);                                
-    function fillTypes(value) {                                              
-        var p = new Promise(INTERNAL);                                       
-        p._fulfillmentHandler0 = value;                                      
-        p._rejectionHandler0 = value;                                        
-        p._promise0 = value;                                                 
-        p._receiver0 = value;                                                
-    }                                                                        
-    // Complete slack tracking, opt out of field-type tracking and           
-    // stabilize map                                                         
-    fillTypes({a: 1});                                                       
-    fillTypes({b: 2});                                                       
-    fillTypes({c: 3});                                                       
-    fillTypes(1);                                                            
-    fillTypes(function(){});                                                 
-    fillTypes(undefined);                                                    
-    fillTypes(false);                                                        
-    fillTypes(new Promise(INTERNAL));                                        
-    debug.setBounds(Async.firstLineError, util.lastLineError);               
-    return Promise;                                                          
+
+    util.toFastProperties(Promise);
+    util.toFastProperties(Promise.prototype);
+    function fillTypes(value) {
+        var p = new Promise(INTERNAL);
+        p._fulfillmentHandler0 = value;
+        p._rejectionHandler0 = value;
+        p._promise0 = value;
+        p._receiver0 = value;
+    }
+    // Complete slack tracking, opt out of field-type tracking and
+    // stabilize map
+    fillTypes({a: 1});
+    fillTypes({b: 2});
+    fillTypes({c: 3});
+    fillTypes(1);
+    fillTypes(function(){});
+    fillTypes(undefined);
+    fillTypes(false);
+    fillTypes(new Promise(INTERNAL));
+    debug.setBounds(Async.firstLineError, util.lastLineError);
+    return Promise;
 
 };
 
@@ -42253,8 +42253,8 @@ function ReductionPromiseArray(promises, fn, initialValue, _each) {
 util.inherits(ReductionPromiseArray, PromiseArray);
 
 ReductionPromiseArray.prototype._gotAccum = function(accum) {
-    if (this._eachValues !== undefined && 
-        this._eachValues !== null && 
+    if (this._eachValues !== undefined &&
+        this._eachValues !== null &&
         accum !== INTERNAL) {
         this._eachValues.push(accum);
     }
@@ -44075,7 +44075,7 @@ define('clientSDK/src/clients/EventServiceClient',[
         console.log("WebSocketClient.close executed");
         WebSocketClient.close();
     };
-	
+
 	var setLogging = function(turnOn) {
 		console.log("EventServiceClient verbose logging: " + turnOn);
 		verbose = turnOn;
@@ -44250,7 +44250,7 @@ define('WebRTC_SDK/RTCManager',['require','my.Class','underscore','backbone','q'
                 this.createFakeStream();
             }
         },
-		
+
 		setBandwidth : function(bw){
 			if((bw>=100) && (bw<=4096)){
 				this.maxBandwidth = bw;
@@ -44484,7 +44484,7 @@ define('WebRTC_SDK/RTCManager',['require','my.Class','underscore','backbone','q'
             if(this.localAudioStreamChange)
                 this.localAudioStreamChange(model.get('localAudioStream'));
         },
-		
+
 		onPresentationTokenUpdated: function(model){
 			var token = model.get('presentationToken');
 			if(token && token.type === 'contentindication'){
@@ -44504,7 +44504,7 @@ define('WebRTC_SDK/RTCManager',['require','my.Class','underscore','backbone','q'
 				};
 			}
 		},
-		
+
 		onContentStreamUpdated: function(stream){
 			if(this.contentStreamChange)
 				this.contentStreamChange(stream);
