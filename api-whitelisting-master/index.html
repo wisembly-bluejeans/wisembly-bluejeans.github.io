@@ -1,0 +1,182 @@
+<html>
+<head>
+	<title>Whitelist Testing</title>
+<script src='jquery.min.js'></script>
+<link href="styles.css" rel="stylesheet">
+<script src='bootstrap/js/bootstrap.js' type="text/javascript"></script>
+  <!-- Bootstrap core CSS -->
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+<link href="https://fonts.googleapis.com/css?family=Mukta:300,400,500,700" rel="stylesheet">
+</head>
+
+<script type="text/javascript">
+
+var host = "https://api.a.bluejeans.com";
+var apiToken = "/oauth2/token";
+
+
+function jsstr(st){
+	return JSON.stringify(st,null,2);
+}
+
+function apiSchedule(uid) {
+   return "/v1/user/"+uid+"/scheduled_meeting";
+}
+
+var gUserId = 0;
+var gAccessToken = "";
+
+
+
+// Make AJAX call to login to BlueJeans
+//
+function doSchedule(){
+var howLong = 10 * 60 * 1000;
+
+var srec = {
+  title : "CORS Validation Meeting",
+  description : "Scheduled from CORS Validation Web Page",
+  start : Date.now() + 5000,
+  end : Date.now() + howLong,
+  timezone : "America/Los_Angeles",
+  endPointType : "WEB_APP",
+  endPointVersion : "2.10",
+/*  attendees : [
+    {
+      "email : "email"
+    }
+  ], */
+  isLargeMeeting : true,
+  isPersonalMeeting : false
+}
+	
+  $.ajax( {
+  url: host+apiSchedule(gUserId) + "?email=false&access_token="+gAccessToken,
+  method: 'POST',
+  contentType: 'application/json',
+  data: JSON.stringify(srec)  
+  }).done( (data) => {
+	 $("#schedstatus").removeClass("glyphicon-remove fail");
+	 $("#schedstatus").addClass("glyphicon glyphicon-check pass");
+	 $("#schedstatus").text("Successfully scheduled Meeting: \"" + data.numericMeetingId + "\"");
+  }).fail( (error) => {
+	 $("#schedstatus").removeClass("glyphicon-check pass");
+	 $("#schedstatus").addClass("glyphicon glyphicon-remove fail");
+	 if(error.status==0){
+		 $("#schedstatus").text("CORS Fault Detected");
+	 }
+  });
+}
+
+
+
+
+// Make AJAX call to login to BlueJeans
+//
+function doLogin(){
+var orec = {
+	grant_type : "password",
+	username : document.getElementById("userid").value,
+	password : document.getElementById("password").value
+	};
+
+  $.ajax( {
+  url: host+apiToken,
+  method: 'POST',
+  contentType: 'application/json',
+  data: JSON.stringify(orec)  
+  }).done( (data) => {
+     gUserId = data.scope.user;
+	 gAccessToken = data.access_token;
+	 $("#loginstatus").removeClass("glyphicon-remove fail");
+	 $("#loginstatus").addClass("glyphicon glyphicon-check pass");
+	 $("#gUserId").text(gUserId);
+	 $("#loginstatus").text("");
+  }).fail( (error) => {
+	 $("#loginstatus").removeClass("glyphicon-check pass");
+	 $("#loginstatus").addClass("glyphicon glyphicon-remove fail");
+	 if(error.status ==0){
+	    // CORS error
+		$("#loginstatus").text("CORS Fault detected");
+	 }
+  });
+}
+
+function setup() {
+	$("#host").text(host);
+}
+
+</script>
+
+<body onload="setup()">
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">
+        <img alt="Brand" width="200px" src="BlueJeans_Logo_White.jpg">
+      </a>
+	  <h2 class="navbar-text">BlueJeans CORS Validator</h2>
+    </div>
+	  <p class="navbar-text navbar-right">API Host:&nbsp<i id="host"></i></p>
+  </div>
+</nav>
+  <div class="container">
+  
+	<div class="panel panel-default">
+	  <div class="panel-heading">Getting Started... Login</div>
+	  <div class="panel-body">
+	  
+		<div class="row">
+			<div class="col-sm-4 col-lg-2">
+			User ID
+			</div>
+			<div class="col-sm-8 col-lg-10">
+			<input id="userid" type="text" value="api.validator" placeholder="User Id"/>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-4 col-lg-2">
+			Password
+			</div>
+			<div class="col-sm-8 col-lg-10">
+			<input id="password" type="password"  placeholder="Password"/>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-4 col-lg-2">
+			<button onclick="doLogin()">Login</button>
+			</div>
+			<div class="col-sm-4 col-lg-10">
+			<i id="loginstatus"></i>
+			</div>
+		</div>
+	  </div>
+	</div>
+
+	<div class="panel panel-default">
+	  <div class="panel-heading">Validate CORS ... Schedule</div>
+	  <div class="panel-body">
+		<div class="row">
+			<div class="col-sm-12">
+			User ID#: <span id="gUserId"></span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-4 col-lg-2">
+			<button onclick="doSchedule()">Schedule</button>
+			</div>
+			<div class="col-sm-4 col-lg-10">
+			<i id="schedstatus">hello</i>
+			</div>
+		</div>	  
+	  </div>
+	</div>
+	  
+  </div>
+</body>
+</html>
