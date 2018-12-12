@@ -12,7 +12,6 @@ define([
 
 ], function($, _, RTCManager, defaultRTCParams, BJN, RTCClient, RTCRoster) {
 
-	console.log("Yo");
   console.log("(example.js): BJN WebRTC Example");
 
 	$("#joinMeeting, #leaveMeeting").click(function(){
@@ -197,7 +196,6 @@ define([
 		$('table#parties tr#'+p.cid+' td.rostera').html( PartyAudioMuted(p) );
 	}
 
-
 	maptoUI = function() {
 		console.log("(example.js) maptoUI()");
 		// Device and Connection UI Handlers
@@ -262,12 +260,12 @@ define([
 	// maptoUI();
 
 	var queryArgs = new URI(window.location).search(true);
-	console.log(queryArgs);
+	console.log('queryArgs', queryArgs);
 
 	if (queryArgs.meeting_id) {
 		RTCClient.joinMeeting({
 			numericMeetingId: queryArgs.meeting_id,
-			displayName: 'user#7856'
+			displayName: 'user#' + Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5)
 		});
 
 		// mute video
@@ -279,5 +277,7 @@ define([
 		if (!RTCClient.toggleAudioMute()) {
 			RTCClient.toggleAudioMute();
 		}
+	} else {
+		console.log('no meeting id given in queryArgs!');
 	}
 });
