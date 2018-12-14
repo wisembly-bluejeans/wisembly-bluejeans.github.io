@@ -16,7 +16,7 @@
 
 <script type="text/javascript">
 
-var host = "https://api.a.bluejeans.com";
+var host = "";
 var apiToken = "/oauth2/token";
 
 
@@ -37,6 +37,7 @@ var gAccessToken = "";
 //
 function doSchedule(){
 var howLong = 10 * 60 * 1000;
+var host = $("#host option:selected").val();
 
 var srec = {
   title : "CORS Validation Meeting",
@@ -84,6 +85,8 @@ var orec = {
 	username : document.getElementById("userid").value,
 	password : document.getElementById("password").value
 	};
+	
+  var host = $("#host option:selected").val();
 
   $.ajax( {
   url: host+apiToken,
@@ -97,6 +100,7 @@ var orec = {
 	 $("#loginstatus").addClass("glyphicon glyphicon-check pass");
 	 $("#gUserId").text(gUserId);
 	 $("#loginstatus").text("");
+	 $("#loginnode").text(data.scope.partition.name);
   }).fail( (error) => {
 	 $("#loginstatus").removeClass("glyphicon-check pass");
 	 $("#loginstatus").addClass("glyphicon glyphicon-remove fail");
@@ -108,7 +112,6 @@ var orec = {
 }
 
 function setup() {
-	$("#host").text(host);
 }
 
 </script>
@@ -122,7 +125,12 @@ function setup() {
       </a>
 	  <h2 class="navbar-text">BlueJeans CORS Validator</h2>
     </div>
-	  <p class="navbar-text navbar-right">API Host:&nbsp<i id="host"></i></p>
+	  <p class="navbar-text navbar-right">API Host:&nbsp
+	  <select id="host">
+	  <option value="https://api.a.bluejeans.com" selected>PRE-PROD: https://api.a.bluejeans.com</option>
+	  <option value="https://api.bluejeans.com">PROD: https://api.bluejeans.com</option>
+	  </select>
+	  </p>
   </div>
 </nav>
   <div class="container">
@@ -147,12 +155,20 @@ function setup() {
 			<input id="password" type="password"  placeholder="Password"/>
 			</div>
 		</div>
-		<div class="row">
+		<div class="row btnrow">
 			<div class="col-sm-4 col-lg-2">
 			<button onclick="doLogin()">Login</button>
 			</div>
 			<div class="col-sm-4 col-lg-10">
 			<i id="loginstatus"></i>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-4 col-lg-2">
+			Node
+			</div>
+			<div class="col-sm-4 col-lg-2">
+			<div id="loginnode">--??--</div>
 			</div>
 		</div>
 	  </div>

@@ -233,3 +233,19 @@ input {
 
 .btn, .btn-info:hover, .btn-info:active, .btn-info:visited, .btn-info:focus, button, button:active {
 }
+
+.btnrow {
+	padding: 10px 0 10px 0;
+}
+
+#loginstatus{
+	font-size: 1.5em;
+	padding: 5px 0 5px 0;
+}
+
+#loginnode {
+	font-size: 2em;
+	border: 1px solid black;
+	border-radius: 5px;
+	text-align: center;
+}
