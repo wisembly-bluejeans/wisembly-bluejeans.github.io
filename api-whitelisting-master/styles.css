@@ -249,3 +249,15 @@ input {
 	border-radius: 5px;
 	text-align: center;
 }
+
+.checkme {
+	background-color: red;
+	font-weight: bold;
+	color: white;
+}
+
+.uncheckme {
+	background-color: none;
+	font-weight: normal;
+	color: black;
+}

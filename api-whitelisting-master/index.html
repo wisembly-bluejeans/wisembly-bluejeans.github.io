@@ -32,32 +32,37 @@ var gUserId = 0;
 var gAccessToken = "";
 
 
+function remindAPIHost(isRemind){
+  $("#apihost").addClass(     isRemind ? "checkme" : "uncheckme" );
+  $("#apihost").removeClass( !isRemind ? "checkme" : "uncheckme" );
+}
 
-// Make AJAX call to login to BlueJeans
+
+// Make AJAX call to Schedule meeting on BlueJeans
 //
 function doSchedule(){
 var howLong = 10 * 60 * 1000;
 var host = $("#host option:selected").val();
 
-var srec = {
-  title : "CORS Validation Meeting",
-  description : "Scheduled from CORS Validation Web Page",
-  start : Date.now() + 5000,
-  end : Date.now() + howLong,
-  timezone : "America/Los_Angeles",
-  endPointType : "WEB_APP",
-  endPointVersion : "2.10",
-/*  attendees : [
-    {
-      "email : "email"
-    }
-  ], */
-  isLargeMeeting : true,
-  isPersonalMeeting : false
-}
-	
+	var srec = {
+	  title : "CORS Validation Meeting",
+	  description : "Scheduled from CORS Validation Web Page",
+	  start : Date.now() + 5000,
+	  end : Date.now() + howLong,
+	  timezone : "America/Los_Angeles",
+	  endPointType : "WEB_APP",
+	  endPointVersion : "2.10",
+	  attendees : [
+		{
+		  "email" : "glenn@bluejeans.com"
+		}
+	  ],
+	  isLargeMeeting : true,
+	  isPersonalMeeting : false
+	}
+		
   $.ajax( {
-  url: host+apiSchedule(gUserId) + "?email=false&access_token="+gAccessToken,
+  url: host+apiSchedule(gUserId) + "?email=true&access_token="+gAccessToken,
   method: 'POST',
   contentType: 'application/json',
   data: JSON.stringify(srec)  
@@ -75,6 +80,35 @@ var srec = {
 }
 
 
+// Make AJAX call to validate the token provided to customer
+//
+var apiValidToken = "/oauth2/tokenInfo";
+function doAuthorize(){
+  var ourToken = $("#atoken").val();
+  var host = $("#host option:selected").val();
+	
+  $.ajax( {
+  url: host+apiValidToken + "?access_token="+ourToken,
+  method: 'GET',
+  contentType: 'application/json'
+  }).done( (data) => {
+     gUserId = data.user;
+	 gAccessToken = ourToken;
+	 
+	 $("#authstatus").removeClass("glyphicon-remove fail");
+	 $("#authstatus").addClass("glyphicon glyphicon-check pass");
+	 $("#authstatus").text("Access Token Authorized");
+	 $("#gUserId").text(gUserId);
+	 remindAPIHost(false);
+	 okToTest(true);
+  }).fail( (error) => {
+	 $("#authstatus").removeClass("glyphicon-check pass");
+	 $("#authstatus").addClass("glyphicon glyphicon-remove fail");
+	 remindAPIHost(true);
+ 	 okToTest(false);
+	 $("#authstatus").text("Invalid Access Token, have you selected the appropriate API host?");
+  });  
+}
 
 
 // Make AJAX call to login to BlueJeans
@@ -101,9 +135,14 @@ var orec = {
 	 $("#gUserId").text(gUserId);
 	 $("#loginstatus").text("");
 	 $("#loginnode").text(data.scope.partition.name);
+	 remindAPIHost(false);
+	 okToTest(true);
   }).fail( (error) => {
 	 $("#loginstatus").removeClass("glyphicon-check pass");
 	 $("#loginstatus").addClass("glyphicon glyphicon-remove fail");
+	 $("#loginstatus").text("Have you selected the appropriate API host?");
+	 remindAPIHost(true);
+	 okToTest(false);
 	 if(error.status ==0){
 	    // CORS error
 		$("#loginstatus").text("CORS Fault detected");
@@ -111,7 +150,29 @@ var orec = {
   });
 }
 
+function okToTest(isOk){
+	$("#panelwhite").addClass( isOk ? "panel-success" : "panel-info" );
+	$("#panelwhite").removeClass( isOk ? "panel-info" : "panel=success" );
+	$("#btnsched").prop("disabled",!isOk );
+}
+
+function panel(who){
+ var p = "#step" + who;
+ $(p).toggle();
+ if( $(p).is(":visible") ){
+	$("#panel"+who).addClass("panel-info");
+	$("#panel"+who).removeClass("panel-default");
+ } else {
+	$("#panel"+who).removeClass("panel-info");
+	$("#panel"+who).addClass("panel-default");
+ }
+}
+
 function setup() {
+  remindAPIHost(false);
+  $("#step1").hide();
+  $("#step2").hide();
+  okToTest(false);
 }
 
 </script>
@@ -125,7 +186,7 @@ function setup() {
       </a>
 	  <h2 class="navbar-text">BlueJeans CORS Validator</h2>
     </div>
-	  <p class="navbar-text navbar-right">API Host:&nbsp
+	  <p class="navbar-text navbar-right"><span id="apihost">API Host:&nbsp</span>
 	  <select id="host">
 	  <option value="https://api.a.bluejeans.com" selected>PRE-PROD: https://api.a.bluejeans.com</option>
 	  <option value="https://api.bluejeans.com">PROD: https://api.bluejeans.com</option>
@@ -135,10 +196,11 @@ function setup() {
 </nav>
   <div class="container">
   
-	<div class="panel panel-default">
-	  <div class="panel-heading">Getting Started... Login</div>
-	  <div class="panel-body">
-	  
+	<div id="panel1" class="panel panel-default">
+	  <div class="panel-heading">
+	  <button type="button" class="btn btn-warning" onclick="panel(1)">Step 1 <span class="caret"></span></button>
+	  Testing Sandbox/Stage Whitelisting... Login</div>
+	  <div id="step1" class="panel-body">
 		<div class="row">
 			<div class="col-sm-4 col-lg-2">
 			User ID
@@ -174,9 +236,35 @@ function setup() {
 	  </div>
 	</div>
 
-	<div class="panel panel-default">
-	  <div class="panel-heading">Validate CORS ... Schedule</div>
-	  <div class="panel-body">
+	<div id="panel2" class="panel panel-default">
+	  <div class="panel-heading">
+	  <button type="button" class="btn btn-warning" onclick="panel(2)">Step 2 <span class="caret"></span></button>
+	  (Pre-)Testing Production Whitelisting...Authorization</div>
+	  <div id="step2" class="panel-body">
+	  
+		<div class="row">
+			<div class="col-sm-4 col-lg-2">
+			Access Token
+			</div>
+			<div class="col-sm-8 col-lg-10">
+			<input id="atoken" type="text" placeholder="Your Access Token"/>
+			</div>
+		</div>
+		<div class="row btnrow">
+			<div class="col-sm-4 col-lg-2">
+			<button onclick="doAuthorize()">Validate</button>
+			</div>
+			<div class="col-sm-4 col-lg-10">
+			<i id="authstatus"></i>
+			</div>
+		</div>
+		</div>		
+	</div>
+	
+	
+	<div id="panelwhite" class="panel panel-info">
+	  <div class="panel-heading">Testing the CORS Configuration...Validation</div>
+	  <div id="whitetest" class="panel-body">
 		<div class="row">
 			<div class="col-sm-12">
 			User ID#: <span id="gUserId"></span>
@@ -184,7 +272,7 @@ function setup() {
 		</div>
 		<div class="row">
 			<div class="col-sm-4 col-lg-2">
-			<button onclick="doSchedule()">Schedule</button>
+			<button id="btnsched" onclick="doSchedule()">Schedule</button>
 			</div>
 			<div class="col-sm-4 col-lg-10">
 			<i id="schedstatus">hello</i>
