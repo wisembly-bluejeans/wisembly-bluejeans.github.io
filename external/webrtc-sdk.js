@@ -89,7 +89,6 @@ require.config({
             'sdp-transform/index',
             'sdp-interop/transform',
             'sdp-interop/array-equals',
-            'WebRTC_SDK/utilities/RTCFirefoxSDPConstants',
             'sdp-interop/interop',
             'sdp-interop/index',
             'WebRTC_SDK/RTCPeer',
@@ -33871,33 +33870,7 @@ module.exports = function arrayEquals(array) {
 
 });
 
-define('WebRTC_SDK/utilities/RTCFirefoxSDPConstants',['require','my.Class','browserDetector'],function (require) {
-    var my                  = require('my.Class');
-    var BrowserDetector     = require('browserDetector');
-  var RTCFirefoxSDPConstants = my.Class({
-
-    constructor: function() {
-            this.FIREFOX_SDP_OBJ = {
-                SDP_MID_0: 'sdparta_0',
-                SDP_MID_1: 'sdparta_1',
-                SDP_MID_2: 'sdparta_2'
-            };
-            if(BrowserDetector.browser === "firefox" && BrowserDetector.majorVersion >= 63) {
-                this.FIREFOX_SDP_OBJ = {
-                    SDP_MID_0: '0',
-                    SDP_MID_1: '1',
-                    SDP_MID_2: '2'
-                };
-            }
-    }
-
-  });
-
-  return new RTCFirefoxSDPConstants();
-
-});
-
-define('sdp-interop/interop',['require','exports','module','sdp-interop/transform','sdp-interop/array-equals','WebRTC_SDK/utilities/RTCFirefoxSDPConstants'],function (require, exports, module) {/* Copyright @ 2015 Atlassian Pty Ltd
+define('sdp-interop/interop',['require','exports','module','sdp-interop/transform','sdp-interop/array-equals'],function (require, exports, module) {/* Copyright @ 2015 Atlassian Pty Ltd
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33918,7 +33891,6 @@ define('sdp-interop/interop',['require','exports','module','sdp-interop/transfor
 
 var transform = require('sdp-interop/transform');
 var arrayEquals = require('sdp-interop/array-equals');
-var firefoxSdpConstants = require('WebRTC_SDK/utilities/RTCFirefoxSDPConstants');
 
 function Interop() {
 
@@ -34613,13 +34585,13 @@ Interop.prototype.toUnifiedPlan = function(desc) {
     session.media.forEach(function(unifiedLine) {
 
         if(index == 0){
-            unifiedLine.mid = firefoxSdpConstants.FIREFOX_SDP_OBJ.SDP_MID_0;
+            unifiedLine.mid = 'sdparta_0';
         }
         else if(index == 1){
-            unifiedLine.mid = firefoxSdpConstants.FIREFOX_SDP_OBJ.SDP_MID_1;
+            unifiedLine.mid = 'sdparta_1';
         }
         else if(index == 2){
-            unifiedLine.mid = firefoxSdpConstants.FIREFOX_SDP_OBJ.SDP_MID_2;
+            unifiedLine.mid = 'sdparta_2';
         }
         mids.push(unifiedLine.mid);
         index++;
@@ -34670,7 +34642,7 @@ exports.Interop = require('sdp-interop/interop');
 
 });
 
-define('WebRTC_SDK/RTCPeer',['require','q','my.Class','underscore','backbone','Logger','adapter','WebRTC_SDK/utilities/RTCErrors','WebRTC_SDK/utilities/RTCBlueJay','WebRTC_SDK/RTCCallStats','WebRTC_SDK/RTCStates','WebRTC_SDK/utilities/RTCUtils','WebRTC_SDK/models/RTCPeerModel','WebRTC_SDK/manager/RTCStateManager','sdpUtils','sdp-interop/index','browserDetector','WebRTC_SDK/utilities/RTCFirefoxSDPConstants'],function (require) {
+define('WebRTC_SDK/RTCPeer',['require','q','my.Class','underscore','backbone','Logger','adapter','WebRTC_SDK/utilities/RTCErrors','WebRTC_SDK/utilities/RTCBlueJay','WebRTC_SDK/RTCCallStats','WebRTC_SDK/RTCStates','WebRTC_SDK/utilities/RTCUtils','WebRTC_SDK/models/RTCPeerModel','WebRTC_SDK/manager/RTCStateManager','sdpUtils','sdp-interop/index','browserDetector'],function (require) {
 
     var Q           = require('q');
     var my          = require('my.Class');
@@ -34688,7 +34660,6 @@ define('WebRTC_SDK/RTCPeer',['require','q','my.Class','underscore','backbone','L
     var SDPUtils            = require('sdpUtils');
     var SDPInterop          = require('sdp-interop/index');
     var BrowserDetector     = require('browserDetector');
-  var firefoxSdpConstants = require('WebRTC_SDK/utilities/RTCFirefoxSDPConstants');
 
     var RTCPeer = my.Class({
 
@@ -34739,6 +34710,13 @@ define('WebRTC_SDK/RTCPeer',['require','q','my.Class','underscore','backbone','L
                     icesvr.username = icesvr.username + "#firefox";
                 });
             }
+
+      if(BrowserDetector.browser === "chrome" || BrowserDetector.browser === "opera"){
+        // WRCS-341
+        peerConnectionConfig.sdpSemantics = 'plan-b';
+        console.log("Chrome: sdpSemantics is plan-b");
+      }
+
 
             this.pc = new RTCPeerConnection(peerConnectionConfig, peerConnectionConstraints);
             this.pc.onicecandidate = this.onIceCandidate;
@@ -35213,11 +35191,10 @@ define('WebRTC_SDK/RTCPeer',['require','q','my.Class','underscore','backbone','L
             var deferred = Q.defer();
 
             if (this.isFirefox) {
-                if (message.sdpMid === 'audio'){
-                    message.sdpMid = firefoxSdpConstants.FIREFOX_SDP_OBJ.SDP_MID_0;
-        }
+                if (message.sdpMid === 'audio')
+                    message.sdpMid = 'sdparta_0';
                 else {
-                    message.sdpMid = firefoxSdpConstants.FIREFOX_SDP_OBJ.SDP_MID_1;
+                    message.sdpMid = 'sdparta_1';
                     message.sdpMLineIndex = 1;
                 }
             }
@@ -35831,7 +35808,7 @@ define('WebRTC_SDK/manager/RTCScreenSharingManager',['require','underscore','jqu
 *
 */
 
-define('WebRTC_SDK/manager/RTCPeerConnectionManager',['require','q','my.Class','underscore','backbone','Logger','WebRTC_SDK/RTCPeer','WebRTC_SDK/utilities/RTCBlueJay','WebRTC_SDK/RTCStates','sdpUtils','WebRTC_SDK/manager/RTCStateManager','WebRTC_SDK/manager/RTCSignallingManager','WebRTC_SDK/manager/RTCTransactionManager','WebRTC_SDK/manager/RTCScreenSharingManager','WebRTC_SDK/utilities/RTCErrors','browserDetector','WebRTC_SDK/utilities/RTCFirefoxSDPConstants'],function (require) {
+define('WebRTC_SDK/manager/RTCPeerConnectionManager',['require','q','my.Class','underscore','backbone','Logger','WebRTC_SDK/RTCPeer','WebRTC_SDK/utilities/RTCBlueJay','WebRTC_SDK/RTCStates','sdpUtils','WebRTC_SDK/manager/RTCStateManager','WebRTC_SDK/manager/RTCSignallingManager','WebRTC_SDK/manager/RTCTransactionManager','WebRTC_SDK/manager/RTCScreenSharingManager','WebRTC_SDK/utilities/RTCErrors','browserDetector'],function (require) {
 
     var Q                       = require('q');
     var my                      = require('my.Class');
@@ -35848,7 +35825,6 @@ define('WebRTC_SDK/manager/RTCPeerConnectionManager',['require','q','my.Class','
     var RTCScreenSharingManager = require('WebRTC_SDK/manager/RTCScreenSharingManager');
     var RTCErrors               = require('WebRTC_SDK/utilities/RTCErrors');
     var BrowserDetector         = require('browserDetector');
-    var firefoxSdpConstants   = require('WebRTC_SDK/utilities/RTCFirefoxSDPConstants');
 
     var RTCPeerConnectionManager = my.Class({
         config: {
@@ -35941,9 +35917,9 @@ define('WebRTC_SDK/manager/RTCPeerConnectionManager',['require','q','my.Class','
             if (iceCandidate) {
 
                 if (BrowserDetector.browser === 'firefox') {
-                    if (iceCandidate.sdpMid === firefoxSdpConstants.FIREFOX_SDP_OBJ.SDP_MID_0)
+                    if (iceCandidate.sdpMid === 'sdparta_0')
                          iceCandidate.sdpMid = 'audio';
-                     else if (iceCandidate.sdpMid === firefoxSdpConstants.FIREFOX_SDP_OBJ.SDP_MID_1 || iceCandidate.sdpMid === firefoxSdpConstants.FIREFOX_SDP_OBJ.SDP_MID_2) {
+                     else if (iceCandidate.sdpMid === 'sdparta_1' || iceCandidate.sdpMid === 'sdparta_2') {
                          iceCandidate.sdpMid = 'video';
                          iceCandidate.sdpMLineIndex = 1;
                     }
